@@ -259,30 +259,54 @@ h2 {
   color: #145334;
   font-weight: 700;
   padding: 7px 14px;
-  animation: pulse 3.4s infinite;
+  animation: btnClick 3.6s infinite;
 }
 .ocr {
   position: absolute;
-  top: 18px;
-  right: 18px;
+  top: 150px;
+  left: 140px;
   background: #1a3529;
   color: #daf0e2;
   font: 12px "IBM Plex Mono", Consolas, monospace;
   border-radius: 999px;
   padding: 7px 12px;
   opacity: 0;
-  animation: show 3.4s infinite;
+  animation: showOcr 3.6s infinite;
+}
+.target-lock {
+  position: absolute;
+  left: 36px;
+  top: 187px;
+  width: 92px;
+  height: 44px;
+  border: 2px solid #5ac58d;
+  border-radius: 8px;
+  box-shadow: 0 0 0 0 rgba(90, 197, 141, 0.35);
+  opacity: 0;
+  animation: lockTarget 3.6s infinite;
 }
 .cursor {
   position: absolute;
-  width: 18px;
-  height: 18px;
-  border: 2px solid #5ac58d;
+  width: 0;
+  height: 0;
+  border-top: 0 solid transparent;
+  border-bottom: 18px solid transparent;
+  border-left: 13px solid #9af0bf;
+  left: calc(100% - 140px);
+  top: 250px;
+  filter: drop-shadow(0 0 8px rgba(90, 197, 141, 0.35));
+  transform-origin: center;
+  animation: moveCursor 3.6s infinite;
+}
+.cursor::after {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 8px;
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
-  background: rgba(90, 197, 141, 0.2);
-  left: 22%;
-  top: 42%;
-  animation: move 3.4s infinite;
+  background: #9af0bf;
 }
 .terminal-log {
   margin-top: 14px;
@@ -296,23 +320,65 @@ h2 {
   color: #d4ecdd;
   font: 13px "IBM Plex Mono", Consolas, monospace;
   margin: 4px 0;
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
 }
 
-@keyframes show {
+@keyframes showOcr {
   0%, 16% { opacity: 0; transform: translateY(-6px); }
-  24%, 68% { opacity: 1; transform: translateY(0); }
+  24%, 64% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(-3px); }
 }
-@keyframes move {
-  0% { left: 22%; top: 43%; box-shadow: 0 0 0 0 rgba(90, 197, 141, 0); }
-  40% { left: 71%; top: 61%; box-shadow: 0 0 0 0 rgba(90, 197, 141, 0); }
-  56% { left: 71%; top: 61%; box-shadow: 0 0 0 12px rgba(90, 197, 141, 0.23); }
-  75% { left: 71%; top: 61%; box-shadow: 0 0 0 0 rgba(90, 197, 141, 0); }
-  100% { left: 22%; top: 43%; box-shadow: 0 0 0 0 rgba(90, 197, 141, 0); }
+@keyframes lockTarget {
+  0%, 24% { opacity: 0; box-shadow: 0 0 0 0 rgba(90, 197, 141, 0); }
+  32%, 54% { opacity: 1; box-shadow: 0 0 0 6px rgba(90, 197, 141, 0.2); }
+  70%, 100% { opacity: 0; box-shadow: 0 0 0 0 rgba(90, 197, 141, 0); }
 }
-@keyframes pulse {
-  0%, 38%, 100% { background: #d8edde; }
-  52%, 72% { background: #c6e8d1; }
+@keyframes moveCursor {
+  0% {
+    left: calc(100% - 140px);
+    top: 250px;
+    transform: scale(1) rotate(0deg);
+    opacity: 0;
+  }
+  16% {
+    opacity: 1;
+  }
+  48% {
+    left: 84px;
+    top: 218px;
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  55% {
+    left: 84px;
+    top: 218px;
+    transform: scale(0.95) rotate(0deg);
+    opacity: 1;
+  }
+  72% {
+    left: 84px;
+    top: 218px;
+    transform: scale(1) rotate(0deg);
+    opacity: 0;
+  }
+  100% {
+    left: calc(100% - 140px);
+    top: 250px;
+    transform: scale(1) rotate(0deg);
+    opacity: 0;
+  }
+}
+@keyframes btnClick {
+  0%, 47%, 100% {
+    background: #d8edde;
+    transform: translateY(0);
+  }
+  55% {
+    background: #bfe3cc;
+    transform: translateY(1px);
+  }
 }
 
 .two-col {
