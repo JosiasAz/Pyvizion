@@ -9,8 +9,9 @@
   --brand-dark: #0b3d2c;
   --brand-light: #eaf4ee;
   --accent: #22c55e;
-  --code-bg: #0c1a14;
-  --code-text: #d8ece0;
+  --code-bg: #09130e;
+  --code-border: #1b3828;
+  --code-text: #f8fafc;
 }
 
 * {
@@ -44,23 +45,24 @@ a:hover {
   margin: 0 auto;
 }
 
-/* ==================== TOPBAR ==================== */
+/* ==================== TOPBAR (NUNCA QUEBRA NO DESKTOP) ==================== */
 .topbar {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.94);
+  background: rgba(255, 255, 255, 0.96);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
 }
 
 .topbar-inner {
-  min-height: 68px;
+  min-height: 64px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
+  flex-wrap: nowrap;
 }
 
 .brand {
@@ -68,73 +70,88 @@ a:hover {
   align-items: center;
   gap: 10px;
   text-decoration: none;
+  flex-shrink: 0;
+  white-space: nowrap;
 }
 
 .brand img {
-  height: 34px;
+  height: 32px;
   width: auto;
   display: block;
 }
 
 .brand-text {
-  font-size: 21px;
+  font-size: 20px;
   font-weight: 800;
   color: var(--brand-dark);
   letter-spacing: -0.03em;
 }
 
-.menu {
+.menu-links {
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  gap: 14px;
+  flex-wrap: nowrap;
 }
 
-.menu a {
+.menu-links a {
   color: var(--text-muted);
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 600;
   padding: 4px 2px;
+  white-space: nowrap;
+  transition: color 0.15s ease;
 }
 
-.menu a:hover {
+.menu-links a:hover {
   color: var(--brand);
 }
 
-/* Botões da Topbar com especificidade garantida */
-.menu a.btn-topbar-pypi {
+.menu-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.btn-topbar-pypi {
   background: var(--brand) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
-  font-size: 13px !important;
-  padding: 8px 14px !important;
-  border-radius: 8px !important;
+  font-size: 12.5px !important;
+  padding: 7px 13px !important;
+  border-radius: 7px !important;
   border: 1px solid var(--brand) !important;
   display: inline-flex !important;
   align-items: center !important;
+  white-space: nowrap !important;
   box-shadow: 0 1px 3px rgba(20, 107, 67, 0.25);
   transition: all 0.15s ease !important;
 }
 
-.menu a.btn-topbar-pypi:hover {
+.btn-topbar-pypi:hover {
   background: var(--brand-dark) !important;
   border-color: var(--brand-dark) !important;
   color: #ffffff !important;
   transform: translateY(-1px);
 }
 
-.menu a.btn-topbar-gh {
+.btn-topbar-gh {
   background: #edf5f0 !important;
   color: var(--brand-dark) !important;
   font-weight: 600 !important;
-  font-size: 13px !important;
-  padding: 7px 12px !important;
-  border-radius: 8px !important;
+  font-size: 12.5px !important;
+  padding: 6px 12px !important;
+  border-radius: 7px !important;
   border: 1px solid #c8dbce !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  white-space: nowrap !important;
   transition: all 0.15s ease !important;
 }
 
-.menu a.btn-topbar-gh:hover {
+.btn-topbar-gh:hover {
   background: #e0eee4 !important;
   color: var(--brand) !important;
 }
@@ -181,7 +198,7 @@ a:hover {
 
 /* ==================== HERO SECTION ==================== */
 .hero {
-  padding: 60px 0 46px;
+  padding: 56px 0 44px;
   background:
     radial-gradient(900px 320px at 95% -20%, rgba(20, 107, 67, 0.12), transparent 60%),
     #f8fcf9;
@@ -248,31 +265,35 @@ h1 {
   align-items: center;
   gap: 12px;
   background: var(--code-bg);
-  border: 1px solid #1f382a;
+  border: 1px solid var(--code-border);
   border-radius: 10px;
   padding: 9px 14px;
-  box-shadow: 0 4px 12px rgba(8, 26, 18, 0.2);
+  box-shadow: 0 4px 14px rgba(8, 26, 18, 0.2);
 }
 
 .install-prompt {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #a3d9b8;
+  color: #f8fafc;
   font-family: "IBM Plex Mono", Consolas, monospace;
   font-size: 14px;
+  font-weight: 500;
 }
 
 .prompt-sym {
-  color: #52a677;
+  color: #4ade80;
+  font-weight: 700;
   user-select: none;
 }
 
 .install-card code {
-  color: #e2f4ea;
-  background: transparent;
-  padding: 0;
+  color: #f8fafc !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
   font-size: 14px;
+  font-weight: 600;
 }
 
 .btn-copy {
@@ -297,24 +318,24 @@ h1 {
   border-color: #146b43;
 }
 
-/* Painel de Código no Hero */
+/* ==================== HERO PREVIEW (SEM SCROLLBAR HORIZONTAL) ==================== */
 .hero-preview {
-  border: 1px solid var(--line);
+  border: 1px solid var(--code-border);
   border-radius: 14px;
   background: var(--code-bg);
-  box-shadow: 0 16px 40px rgba(11, 40, 27, 0.18);
+  box-shadow: 0 16px 40px rgba(11, 40, 27, 0.2);
   overflow: hidden;
 }
 
 .code-header {
-  background: #12281e;
-  border-bottom: 1px solid #1c3d2e;
+  background: #102419;
+  border-bottom: 1px solid var(--code-border);
   padding: 10px 14px;
   display: flex;
   align-items: center;
   gap: 10px;
   font-size: 12px;
-  color: #8dbda0;
+  color: #94a3b8;
 }
 
 .code-dots {
@@ -334,48 +355,55 @@ h1 {
 
 .code-filename {
   font-family: "IBM Plex Mono", Consolas, monospace;
-  color: #d6ede0;
+  color: #f8fafc;
+  font-weight: 500;
 }
 
 .code-lang {
   margin-left: auto;
   font-size: 11px;
   text-transform: uppercase;
-  color: #5ea07b;
+  color: #4ade80;
   font-weight: 700;
 }
 
 .hero-preview pre {
   margin: 0;
-  padding: 16px;
-  background: transparent;
-  color: var(--code-text);
-  overflow-x: auto;
+  padding: 16px 18px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow-x: hidden !important;
+  white-space: pre-wrap !important;
+  word-break: break-word !important;
 }
 
 .hero-preview code {
   font-family: "IBM Plex Mono", Consolas, monospace;
   font-size: 13px;
-  line-height: 1.6;
-  background: transparent;
-  padding: 0;
+  line-height: 1.55;
+  background: transparent !important;
+  color: #f8fafc !important;
+  padding: 0 !important;
 }
 
 .code-footer {
-  background: #0f241a;
-  border-top: 1px solid #1c3d2e;
+  background: #0d1e14;
+  border-top: 1px solid var(--code-border);
   padding: 8px 14px;
   font-size: 12px;
-  color: #5ec48b;
+  color: #4ade80;
   display: flex;
   align-items: center;
   gap: 6px;
+  font-weight: 500;
 }
 
-/* Token colors */
-.tok-kw { color: #5eead4; font-weight: 600; }
-.tok-str { color: #fde047; }
-.tok-cmt { color: #648c75; font-style: italic; }
+/* Tokens de Sintaxe com Alto Contraste */
+.tok-kw { color: #38bdf8 !important; font-weight: 600; }
+.tok-str { color: #fde047 !important; }
+.tok-cmt { color: #94a3b8 !important; font-style: italic; }
+.tok-fn { color: #a7f3d0 !important; }
 
 /* ==================== STATS BAR ==================== */
 .stats {
@@ -416,7 +444,7 @@ h1 {
 
 /* ==================== SECTIONS ==================== */
 .section {
-  padding: 72px 0;
+  padding: 68px 0;
 }
 
 .section-alt {
@@ -426,7 +454,7 @@ h1 {
 }
 
 .section-head {
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
 .badge-tag {
@@ -552,16 +580,16 @@ h2 {
 
 /* ==================== DEMONSTRAÇÃO INTERATIVA ==================== */
 .demo-window-frame {
-  border: 1px solid #234737;
+  border: 1px solid #1c3d2c;
   border-radius: 14px;
-  background: #0f241a;
+  background: var(--code-bg);
   overflow: hidden;
   box-shadow: 0 20px 60px rgba(8, 28, 19, 0.35);
 }
 
 .demo-window-header {
-  background: #142e22;
-  border-bottom: 1px solid #224a37;
+  background: #102419;
+  border-bottom: 1px solid var(--code-border);
   min-height: 44px;
   display: flex;
   align-items: center;
@@ -579,7 +607,7 @@ h2 {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #e2f4ea;
+  color: #f8fafc;
   font-family: "IBM Plex Mono", Consolas, monospace;
   font-size: 13px;
   font-weight: 600;
@@ -608,9 +636,9 @@ h2 {
 }
 
 .btn-demo-ctrl {
-  background: #1c4532;
-  border: 1px solid #2e694d;
-  color: #e2f4ea;
+  background: #173827;
+  border: 1px solid #285e42;
+  color: #f8fafc;
   font-size: 12px;
   font-weight: 600;
   padding: 4px 10px;
@@ -634,7 +662,7 @@ h2 {
 /* Janela do ERP Legado */
 .erp-window-body {
   background: #eef2ef;
-  border-right: 1px solid #224a37;
+  border-right: 1px solid var(--code-border);
   display: flex;
   flex-direction: column;
 }
@@ -734,7 +762,6 @@ h2 {
   cursor: pointer;
 }
 
-/* Target Anchor: Base para alinhamento 100% perfeito da mira OCR e do mouse */
 .erp-target-anchor {
   position: relative;
   display: inline-block;
@@ -762,7 +789,6 @@ h2 {
   box-shadow: none;
 }
 
-/* Mira do OCR: perfeitamente acoplada ao botão via inset */
 .ocr-lock-box {
   position: absolute;
   inset: -4px -8px;
@@ -797,7 +823,6 @@ h2 {
   white-space: nowrap;
 }
 
-/* Cursor Virtual */
 .virtual-mouse-cursor {
   position: absolute;
   top: 0;
@@ -846,16 +871,16 @@ h2 {
   100% { transform: scale(2.6); opacity: 0; }
 }
 
-/* Terminal de Logs na Demonstração */
+/* ==================== TERMINAL DE LOGS (CONTRASTE NÍTIDO) ==================== */
 .demo-terminal-sidebar {
-  background: #091711;
+  background: var(--code-bg);
   display: flex;
   flex-direction: column;
 }
 
 .demo-terminal-header {
-  background: #0e2017;
-  border-bottom: 1px solid #1c3d2e;
+  background: #102419;
+  border-bottom: 1px solid var(--code-border);
   padding: 8px 14px;
   display: flex;
   align-items: center;
@@ -863,7 +888,7 @@ h2 {
 }
 
 .term-title {
-  color: #9ac2aa;
+  color: #94a3b8;
   font-size: 12px;
   font-weight: 600;
 }
@@ -885,44 +910,46 @@ h2 {
 }
 
 .log-line {
-  color: #456d56;
+  color: #94a3b8; /* Cinza claro totalmente legível */
   transition: all 0.2s ease;
-  padding: 2px 4px;
+  padding: 4px 6px;
   border-radius: 4px;
 }
 
 .log-line code {
-  color: inherit;
-  background: transparent;
-  padding: 0;
+  color: inherit !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
   font-size: 12.5px;
 }
 
 .log-ts {
-  color: #3b5f4b;
+  color: #64748b;
   margin-right: 6px;
   user-select: none;
 }
 
 .log-line.active-log {
-  color: #daf0e2;
-  background: rgba(34, 197, 94, 0.08);
+  color: #f8fafc;
+  background: rgba(34, 197, 94, 0.12);
 }
 
 .log-line.log-cmd.active-log code {
-  color: #5eead4;
+  color: #38bdf8 !important;
 }
 
 .log-line.log-ocr.active-log {
-  color: #fde047;
+  color: #fde047 !important;
 }
 
 .log-line.log-action.active-log {
-  color: #93c5fd;
+  color: #a7f3d0 !important;
 }
 
 .log-line.log-success.active-log {
-  color: #4ade80;
+  color: #4ade80 !important;
+  font-weight: 700;
 }
 
 /* ==================== FLUXOGRAMA NAPKIN AI ==================== */
@@ -946,7 +973,6 @@ h2 {
   display: block;
 }
 
-/* Animação Contínua da Linha Tracejada do Ciclo Napkin AI */
 .flow-diagram-svg #cp_0_g-0_147daexs46f40-stroke path {
   stroke: #146b43 !important;
   stroke-width: 2.5px !important;
@@ -968,7 +994,6 @@ h2 {
   stroke-width: 2.5px !important;
 }
 
-/* Cards explicativos das 4 etapas */
 .flow-explanation-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1048,6 +1073,66 @@ h2 {
 
 .plain-list strong {
   color: var(--text);
+}
+
+/* ==================== ÁRVORE DO MAPA MENTAL (NÍTIDO E BONITO) ==================== */
+.tree-terminal {
+  border: 1px solid var(--code-border);
+  border-radius: 12px;
+  background: var(--code-bg);
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  margin-top: 14px;
+}
+
+.tree-header {
+  background: #102419;
+  border-bottom: 1px solid var(--code-border);
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tree-title {
+  font-family: "IBM Plex Mono", Consolas, monospace;
+  font-size: 12px;
+  color: #f8fafc;
+}
+
+.tree-tag {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 700;
+  color: #4ade80;
+  background: rgba(74, 222, 128, 0.15);
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.tree-pre {
+  margin: 0 !important;
+  padding: 18px 20px !important;
+  background: transparent !important;
+  border: none !important;
+  color: #f8fafc !important;
+  box-shadow: none !important;
+}
+
+.tree-root {
+  color: #38bdf8;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.tree-branch {
+  color: #4ade80;
+  font-weight: 600;
+}
+
+.tree-head {
+  color: #ffffff;
+  font-weight: 700;
 }
 
 /* ==================== PASSO A PASSO ==================== */
@@ -1171,31 +1256,38 @@ h2 {
   margin: 0;
 }
 
-/* ==================== CÓDIGO E PRE ==================== */
+/* ==================== CÓDIGO E PRE (ALTO CONTRASTE ABSOLUTO) ==================== */
 pre {
-  margin: 10px 0 0;
-  border-radius: 8px;
-  background: var(--code-bg);
-  color: var(--code-text);
+  margin: 12px 0 0;
+  border-radius: 9px;
+  background: var(--code-bg) !important;
+  border: 1px solid var(--code-border);
+  color: var(--code-text) !important;
   overflow-x: auto;
-  padding: 14px;
+  padding: 15px 18px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
 }
 
 pre code {
   font-family: "IBM Plex Mono", Consolas, monospace;
-  font-size: 13px;
-  line-height: 1.55;
-  background: transparent;
-  padding: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  background: transparent !important;
+  color: #f8fafc !important;
+  padding: 0 !important;
+  border: none !important;
 }
 
-code {
-  background: #edf5f0;
+/* Código inline no meio de parágrafos normais */
+code:not(pre code) {
+  background: #eaf3ed;
+  border: 1px solid #c8ded0;
   border-radius: 5px;
-  padding: 2px 6px;
+  padding: 2px 7px;
   font-family: "IBM Plex Mono", Consolas, monospace;
-  font-size: 12.5px;
-  color: var(--brand-dark);
+  font-size: 13px;
+  font-weight: 600;
+  color: #0b4a2b;
 }
 
 kbd {
@@ -1250,7 +1342,7 @@ footer {
 }
 
 /* ==================== RESPONSIVIDADE ==================== */
-@media (max-width: 1024px) {
+@media (max-width: 1040px) {
   .hero-grid {
     grid-template-columns: 1fr;
   }
@@ -1266,6 +1358,12 @@ footer {
   .erp-window-body {
     border-right: 0;
     border-bottom: 1px solid #224a37;
+  }
+}
+
+@media (max-width: 900px) {
+  .menu-links {
+    display: none;
   }
 }
 
@@ -1288,9 +1386,6 @@ footer {
   }
   .flow-explanation-grid {
     grid-template-columns: 1fr;
-  }
-  .menu a:not(.btn-topbar-pypi):not(.btn-topbar-gh) {
-    display: none;
   }
   .erp-form-row {
     grid-template-columns: 1fr;

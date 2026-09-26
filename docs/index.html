@@ -15,22 +15,22 @@
   <header class="topbar">
     <div class="container topbar-inner">
       <a class="brand" href="#topo" aria-label="pyvizion início">
-        <img src="assets/logo.svg" alt="pyvizion mark" width="34" height="34">
+        <img src="assets/logo.svg" alt="pyvizion mark" width="32" height="32">
         <span class="brand-text">pyvizion</span>
       </a>
-      <nav class="menu" aria-label="Navegação principal">
+      <nav class="menu-links" aria-label="Navegação principal">
         <a href="#utilidade">Para que serve</a>
         <a href="#como-funciona">Como funciona</a>
         <a href="#demo">Demonstração</a>
         <a href="#fluxograma">Fluxograma</a>
         <a href="#inicio">Passo a passo</a>
-        <a href="#macros">Macros</a>
         <a href="#receitas">Exemplos</a>
-        <a href="#comparativo">Comparativo</a>
         <a href="#duvidas">Dúvidas</a>
+      </nav>
+      <div class="menu-actions">
         <a class="btn-topbar-pypi" href="https://pypi.org/project/pyvizion/" target="_blank" rel="noopener">PyPI v1.0.8</a>
         <a class="btn-topbar-gh" href="https://github.com/JosiasAz/Pyvizion" target="_blank" rel="noopener">GitHub</a>
-      </nav>
+      </div>
     </div>
   </header>
 
@@ -72,27 +72,25 @@
               <span class="dot yellow"></span>
               <span class="dot green"></span>
             </div>
-            <span class="code-filename">robo_faturamento.py</span>
+            <span class="code-filename">robo.py</span>
             <span class="code-lang">Python</span>
           </div>
           <pre><code><span class="tok-kw">from</span> pyvizion <span class="tok-kw">import</span> Vizion
 
-<span class="tok-cmt"># Inicia a automação (reconhece telas em português)</span>
-vz = Vizion({"tesseract_lang": <span class="tok-str">"por"</span>})
+<span class="tok-cmt"># Conecta ao sistema no Windows</span>
+vz = Vizion({<span class="tok-str">"tesseract_lang"</span>: <span class="tok-str">"por"</span>})
+vz.focus_window(<span class="tok-str">"ERP Legado"</span>)
 
-<span class="tok-cmt"># 1. Traz a janela do ERP legado para frente</span>
-vz.focus_window(<span class="tok-str">"ERP Corporativo"</span>)
+<span class="tok-cmt"># Clica no botão por recorte de imagem</span>
+vz.click_image(<span class="tok-str">"menu.png"</span>)
 
-<span class="tok-cmt"># 2. Clica no menu por imagem recortada</span>
-vz.click_image(<span class="tok-str">"menu_faturamento.png"</span>)
+<span class="tok-cmt"># Lê texto na tela via OCR e digita</span>
+vz.click_text(<span class="tok-str">"Código"</span>, sendtext=<span class="tok-str">"12345{enter}"</span>)
 
-<span class="tok-cmt"># 3. Localiza por OCR, clica e preenche com macro</span>
-vz.click_text(<span class="tok-str">"Período"</span>, sendtext=<span class="tok-str">"01/01/2026{tab}31/01/2026"</span>)
-
-<span class="tok-cmt"># 4. Espera o botão de confirmação e clica</span>
+<span class="tok-cmt"># Espera o botão carregar e confirma</span>
 vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span class="tok-kw">True</span>)</code></pre>
           <div class="code-footer">
-            <span>✔ Simples, determinístico e pronto para produção no Windows</span>
+            <span>✔ Simples, determinístico e pronto para produção</span>
           </div>
         </aside>
       </div>
@@ -123,26 +121,25 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
     <!-- Para que serve -->
     <section id="utilidade" class="section">
       <div class="container">
-        <h2>Para que serve, em português direto</h2>
+        <h2>Para que serve o pyvizion</h2>
         <p class="subtitle">
-          O pyvizion é uma <strong>biblioteca Python</strong>. Ele não é um programa pesado nem uma plataforma fechada:
-          você instala com <code>pip</code>, importa no seu script e automatiza a tela de qualquer sistema legado no Windows.
+          O pyvizion é uma <strong>biblioteca Python</strong> leve e determinística. Você instala com <code>pip</code>, importa no seu script e automatiza telas de sistemas no Windows (ERP, Oracle Forms, Delphi, Totvs e Citrix) sem depender de APIs ou plataformas pesadas.
         </p>
         <div class="cards three">
           <article>
             <div class="card-icon">🎯</div>
             <h3>Quando usar</h3>
-            <p>Quando o sistema não tem API (ERP legado, Oracle Forms, Citrix, Totvs, Delphi ou app desktop antigo) e você precisa clicar e digitar como se fosse um operador humano.</p>
+            <p>Quando o sistema não tem API (ERP antigo, Oracle Forms, Citrix, Totvs, Delphi ou app desktop legado) e você precisa clicar e digitar como se fosse um operador humano.</p>
           </article>
           <article>
             <div class="card-icon">⚡</div>
             <h3>O que ele resolve</h3>
-            <p>Tira print ultrarrápido da tela, localiza imagem ou texto via OCR, clica no alvo exato e preenche campos. Também espera elementos aparecerem ou sumirem com timeout seguro.</p>
+            <p>Localiza botões recortados ou palavras escritas na tela, clica com precisão milimétrica e preenche campos em sequência. Também espera telas carregarem antes de agir.</p>
           </article>
           <article>
             <div class="card-icon">🛡️</div>
             <h3>O que ele não é</h3>
-            <p>Não é robô mágico de IA com comportamento imprevisível. É automação determinística por visão computacional (OpenCV) e OCR (Tesseract): você tem 100% de controle de cada etapa.</p>
+            <p>Não é um robô de IA imprevisível. É automação determinística por visão de imagem e OCR: você tem 100% de controle de cada clique e digitação do seu robô.</p>
           </article>
         </div>
       </div>
@@ -151,44 +148,39 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
     <!-- Como funciona -->
     <section id="como-funciona" class="section section-alt">
       <div class="container">
-        <h2>Como funciona</h2>
+        <h2>Como funciona na prática</h2>
         <p class="subtitle">
-          Você escreve, em Python, exatamente o que faria com o mouse e o teclado:
-          "clique no botão Salvar", "digite 12345 no campo Código".
-          O pyvizion executa cada passo nesta ordem:
+          Você escreve em poucas linhas o mesmo caminho que faria manualmente com o teclado e o mouse. O pyvizion executa cada etapa em sequência lógica:
         </p>
         <div class="arch-grid">
           <article>
             <span class="step-num">1</span>
-            <h3>Olha a tela</h3>
-            <p>Tira uma foto da tela em milésimos de segundo usando a biblioteca <code>mss</code>. Funciona perfeitamente em configurações com múltiplos monitores.</p>
+            <h3>Mostre onde clicar</h3>
+            <p>Você escolhe o alvo: pode ser a foto de um botão recortado (imagem) ou a palavra escrita nele (ex.: "Confirmar").</p>
           </article>
           <article>
             <span class="step-num">2</span>
-            <h3>Procura uma imagem</h3>
-            <p>Você recorta o botão (ex.: <code>salvar.png</code>) e o pyvizion encontra esse recorte na tela via OpenCV, mesmo com zoom do Windows em 125% ou 150%.</p>
+            <h3>O robô acha na tela</h3>
+            <p>Ele examina a tela do computador instantaneamente e descobre onde o botão ou palavra está aparecendo.</p>
           </article>
           <article>
             <span class="step-num">3</span>
-            <h3>Ou procura um texto</h3>
-            <p>Também pode achar uma palavra escrita na tela, como "Confirmar". Quem faz a leitura é o Tesseract OCR, um motor livre e de alta precisão.</p>
+            <h3>Clica com precisão</h3>
+            <p>O clique do mouse vai direto ao centro do que encontrou, com precisão no lugar certo e sem errar o alvo.</p>
           </article>
           <article>
             <span class="step-num">4</span>
-            <h3>Clica e digita</h3>
-            <p>Clica exatamente no centro do que encontrou e, se você pedir, já digita o texto e aperta teclas como Tab, Enter e atalhos de teclado.</p>
+            <h3>Digita e navega</h3>
+            <p>Preenche campos com números ou textos, pula de campo com a tecla Tab e aperta Enter se você mandar.</p>
           </article>
           <article>
             <span class="step-num">5</span>
-            <h3>Tenta de novo (Retry)</h3>
-            <p>Se o elemento demorar a carregar ou o menu fechar, o robô repete a busca até o timeout ou desfaz passos via backtrack inteligente.</p>
+            <h3>Espera e tenta de novo</h3>
+            <p>Se a tela demorar para carregar, ele espera com segurança. E se algo sumir, tenta de novo antes de desistir.</p>
           </article>
         </div>
         <div class="info-banner" style="margin-top:28px">
-          <strong>O robô não quebra o script se não achar algo:</strong> quando o botão ou texto
-          não aparece, a função apenas retorna <code>False</code>. Assim você decide o fluxo no seu código:
-          <code>if not vz.click_text("OK"): tratar_erro()</code>.
-          O programa só levanta exceção se o Tesseract não estiver instalado ou se o arquivo de imagem não existir.
+          <strong>Comportamento seguro:</strong> quando um botão ou texto não aparece na tela, o robô apenas responde <code>False</code> sem travar nem derrubar seu script. Assim você decide o que fazer no código com um simples <code>if not vz.click_text("OK"): tratar_erro()</code>.
         </div>
       </div>
     </section>
@@ -376,21 +368,32 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
         </div>
 
         <h3 style="margin-top:36px">Mapa mental rápido de uso</h3>
-        <pre><code>pyvizion
-├── Preparar ambiente
-│   ├── pip install pyvizion
-│   └── instalar Tesseract OCR (UB-Mannheim)
-├── Definir alvos na tela
-│   ├── Imagem: recorte PNG do botão (salvar.png)
-│   └── Texto: palavra a ser lida via OCR ("Confirmar")
-├── Executar ações
-│   ├── click_image / click_text
-│   ├── sendtext com macros opcionais: "admin{tab}senha{enter}"
-│   └── waits: wait_until_found / wait_until_gone
-└── Tratar o retorno
-    ├── True: ação executada com sucesso
-    ├── False / None: elemento não encontrado (tratar no código)
-    └── Exception: arquivo inexistente ou Tesseract não instalado</code></pre>
+        <div class="tree-terminal">
+          <div class="tree-header">
+            <div class="code-dots">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <span class="tree-title">mapa-mental-pyvizion.txt</span>
+            <span class="tree-tag">Referência Rápida</span>
+          </div>
+          <pre class="tree-pre"><code><span class="tree-root">pyvizion</span>
+<span class="tree-branch">├──</span> <span class="tree-head">1. Preparar ambiente</span>
+<span class="tree-branch">│   ├──</span> pip install pyvizion
+<span class="tree-branch">│   └──</span> instalar Tesseract OCR (UB-Mannheim)
+<span class="tree-branch">├──</span> <span class="tree-head">2. Definir alvos na tela</span>
+<span class="tree-branch">│   ├──</span> Imagem: recorte PNG do botão (<span class="tok-str">salvar.png</span>)
+<span class="tree-branch">│   └──</span> Texto: palavra a ser lida via OCR (<span class="tok-str">"Confirmar"</span>)
+<span class="tree-branch">├──</span> <span class="tree-head">3. Executar ações</span>
+<span class="tree-branch">│   ├──</span> click_image / click_text
+<span class="tree-branch">│   ├──</span> sendtext com macros: <span class="tok-str">"admin{tab}senha{enter}"</span>
+<span class="tree-branch">│   └──</span> esperas: wait_until_found / wait_until_gone
+<span class="tree-branch">└──</span> <span class="tree-head">4. Tratar o retorno</span>
+    <span class="tree-branch">├──</span> <span class="tok-kw">True</span>: ação executada com sucesso
+    <span class="tree-branch">├──</span> <span class="tok-str">False / None</span>: elemento não encontrado (tratar no código)
+    <span class="tree-branch">└──</span> Exception: arquivo inexistente ou Tesseract não instalado</code></pre>
+        </div>
       </div>
     </section>
 
