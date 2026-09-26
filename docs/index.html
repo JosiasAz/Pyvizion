@@ -19,8 +19,11 @@
         pyvizion
       </a>
       <nav class="nav-links">
+        <a href="#utilidade">Para que serve</a>
         <a href="#como-funciona">Como funciona</a>
+        <a href="#arquitetura">Arquitetura</a>
         <a href="#inicio">Passo a passo</a>
+        <a href="#macros">Macros</a>
         <a href="#receitas">Exemplos</a>
         <a href="#duvidas">Dúvidas</a>
         <a class="btn" href="https://pypi.org/project/pyvizion/">pip install pyvizion</a>
@@ -65,6 +68,30 @@
       </div>
     </div>
 
+    <section id="utilidade">
+      <div class="wrap">
+        <h2>Para que serve, em português direto</h2>
+        <p class="sub">
+          O pyvizion é uma <strong>biblioteca Python</strong>. Ele não é um sistema separado, nem um framework pesado:
+          você instala, importa e usa dentro do seu script para automatizar tela de sistema legado.
+        </p>
+        <div class="arch three">
+          <article>
+            <h3>Quando usar</h3>
+            <p>Quando o sistema não tem API (ERP antigo, Oracle Forms, Citrix, app desktop interno) e você precisa clicar e digitar como usuário.</p>
+          </article>
+          <article>
+            <h3>O que ele resolve</h3>
+            <p>Tira print da tela, acha imagem/texto, clica no alvo certo e preenche campo. Também espera elemento aparecer ou sumir.</p>
+          </article>
+          <article>
+            <h3>O que ele não é</h3>
+            <p>Não é robô mágico de IA. É automação determinística por imagem e OCR: você controla cada passo do fluxo.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
     <section id="como-funciona">
       <div class="wrap">
         <h2>Como funciona</h2>
@@ -102,6 +129,69 @@
           O programa só para com erro se o Tesseract não estiver instalado ou se
           o arquivo de imagem não existir.
         </p>
+      </div>
+    </section>
+
+    <section id="arquitetura" style="background:var(--mist);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+      <div class="wrap">
+        <h2>Fluxograma, arquitetura e tecnologias</h2>
+        <p class="sub">
+          Este é o fluxo real da biblioteca quando você chama <code>click_image</code> ou <code>click_text</code>.
+        </p>
+<pre><code>Seu script Python
+    |
+    v
+pyvizion (API Vizion / click_* / find_*)
+    |
+    +--> Captura de tela (mss)
+    |       |
+    |       +--> Busca por imagem (OpenCV)
+    |       |
+    |       +--> Busca por texto (Tesseract OCR)
+    |
+    +--> Ação (mouse / teclado)
+    |
+    +--> Resultado: True / False / região / None</code></pre>
+
+        <div class="two">
+          <div>
+            <h3>Tecnologias usadas</h3>
+            <ul class="plain-list">
+              <li><strong>Python 3.9+</strong> para integração e scripts.</li>
+              <li><strong>mss</strong> para captura de tela rápida.</li>
+              <li><strong>OpenCV</strong> para localizar imagens e âncoras.</li>
+              <li><strong>Tesseract OCR</strong> para leitura de texto na tela.</li>
+              <li><strong>PyAutoGUI</strong> para mouse/teclado e fail-safe.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Requisitos mínimos</h3>
+            <ul class="plain-list">
+              <li><strong>Windows</strong> (uso recomendado e completo).</li>
+              <li><strong>Python 3.9+</strong> instalado no sistema.</li>
+              <li><strong>Tesseract</strong> instalado e funcionando.</li>
+              <li><strong>Tela visível</strong> do aplicativo alvo.</li>
+              <li><strong>Imagens de referência</strong> bem recortadas para os botões.</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Mapa mental rápido de uso</h3>
+<pre><code>pyvizion
+├─ Preparar ambiente
+│  ├─ pip install pyvizion
+│  └─ instalar Tesseract
+├─ Definir alvos
+│  ├─ imagem (png)
+│  └─ texto (OCR)
+├─ Executar ações
+│  ├─ click_image / click_text
+│  ├─ sendtext (opcional)
+│  └─ waits (found / disappears)
+└─ Tratar retorno
+   ├─ True: executou
+   ├─ False/None: não achou
+   └─ exception: ambiente/config quebrado</code></pre>
       </div>
     </section>
 
@@ -177,6 +267,41 @@ vz.click_text("Código", sendtext="12345{enter}")  # clica e digita</code></pre>
 <pre><code>python robo.py</code></pre>
           </li>
         </ol>
+      </div>
+    </section>
+
+    <section id="macros">
+      <div class="wrap">
+        <h2>Sobre macros na nova versão (ponto importante)</h2>
+        <p class="sub">
+          O <code>sendtext</code> aceita macros como <code>{tab}</code>, <code>{enter}</code> e <code>{ctrl}a</code>.
+          <strong>Isso é opcional.</strong> Se você não gostou desse estilo, use do jeito mais simples: só texto normal.
+        </p>
+        <div class="two">
+          <div>
+            <h3>Modo simples (sem macro)</h3>
+<pre><code># só digita texto normal
+vz.click_text("Código", sendtext="12345")
+
+# ou separa em duas etapas
+vz.click_text("Código")
+vz.type_text("12345")</code></pre>
+            <p class="sub">Sem chaves, não tem macro. É digitação direta.</p>
+          </div>
+          <div>
+            <h3>Quando macro ajuda</h3>
+<pre><code># preenche e já vai para o próximo campo
+vz.click_text("Usuário", sendtext="admin{tab}senha{enter}")
+
+# apaga conteúdo antigo e escreve de novo
+vz.click_text("Código", sendtext="{ctrl}a{del}12345")</code></pre>
+            <p class="sub">Use macro só onde realmente precisar de tecla especial.</p>
+          </div>
+        </div>
+        <p class="note">
+          Se você precisa digitar chaves literais, use <code>{{</code> e <code>}}</code>.
+          Exemplo: <code>sendtext="valor {{123}}"</code>.
+        </p>
       </div>
     </section>
 

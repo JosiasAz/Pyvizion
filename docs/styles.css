@@ -170,6 +170,7 @@ h3 { font-size: 18px; margin: 28px 0 8px; color: var(--pine); }
   grid-template-columns: repeat(5, 1fr);
   gap: 10px;
 }
+.arch.three { grid-template-columns: repeat(3, 1fr); }
 .arch article {
   border: 1px solid var(--line);
   border-radius: 10px;
@@ -223,6 +224,8 @@ pre code { background: none; padding: 0; color: inherit; }
 .two h3 { margin-top: 0; }
 .two .sub { margin-bottom: 12px; font-size: 15px; }
 .two > div { min-width: 0; }
+.plain-list { margin: 0; padding-left: 20px; color: var(--muted); }
+.plain-list li { margin: 8px 0; }
 
 .steps {
   list-style: none;
