@@ -20,6 +20,7 @@
       </a>
       <nav class="nav-links">
         <a href="#utilidade">Para que serve</a>
+        <a href="#demo">Demonstração</a>
         <a href="#como-funciona">Como funciona</a>
         <a href="#arquitetura">Arquitetura</a>
         <a href="#inicio">Passo a passo</a>
@@ -89,6 +90,48 @@
             <p>Não é robô mágico de IA. É automação determinística por imagem e OCR: você controla cada passo do fluxo.</p>
           </article>
         </div>
+      </div>
+    </section>
+
+    <section id="demo" style="background:var(--mist);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+      <div class="wrap">
+        <h2>Mini demonstração visual</h2>
+        <p class="sub">
+          Aqui está uma simulação rápida (estilo vídeo curto) do que a biblioteca faz: abrir uma tela legado,
+          ler um texto e clicar no botão certo.
+        </p>
+        <div class="demo-scene" aria-label="Simulação da biblioteca pyvizion em um sistema legado">
+          <div class="legacy-window">
+            <div class="legacy-title">ERP Legado - Cadastro de Cliente</div>
+            <div class="legacy-body">
+              <div class="legacy-row">
+                <span>Código</span>
+                <div class="legacy-input">12345</div>
+              </div>
+              <div class="legacy-row">
+                <span>Nome</span>
+                <div class="legacy-input">Empresa XPTO</div>
+              </div>
+              <div class="legacy-row">
+                <span>Status</span>
+                <div class="legacy-input">Ativo</div>
+              </div>
+              <button class="legacy-btn">Salvar</button>
+            </div>
+          </div>
+
+          <div class="ocr-badge">OCR: "Salvar" encontrado</div>
+          <div class="demo-cursor" aria-hidden="true"></div>
+
+          <div class="demo-log">
+            <code>vz.focus_window("ERP Legado")</code><br>
+            <code>vz.click_text("Salvar", wait_until_found=True)</code><br>
+            <code>vz.click_text("Código", sendtext="12345{enter}")</code>
+          </div>
+        </div>
+        <p class="sub" style="margin-top:14px">
+          Simulação visual da ideia. No uso real, o pyvizion procura elementos na sua tela de verdade.
+        </p>
       </div>
     </section>
 
