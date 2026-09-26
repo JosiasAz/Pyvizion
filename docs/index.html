@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>pyvizion: faça o computador clicar e digitar por você</title>
+  <meta name="description" content="Biblioteca Python que olha a tela, encontra botões e textos, clica e digita sozinha. Ideal para automatizar sistemas antigos no Windows (ERP, Oracle Forms, Delphi, Citrix).">
+  <link rel="icon" type="image/png" href="assets/mark.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#topo">
+        <img src="assets/logo.svg" alt="">
+        pyvizion
+      </a>
+      <nav class="nav-links">
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#inicio">Passo a passo</a>
+        <a href="#receitas">Exemplos</a>
+        <a href="#duvidas">Dúvidas</a>
+        <a class="btn" href="https://pypi.org/project/pyvizion/">pip install pyvizion</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="topo">
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">Biblioteca Python · Windows</p>
+          <h1>Faça o computador<br>clicar e digitar por você.</h1>
+          <p class="lead">
+            O pyvizion olha a tela como uma pessoa olharia: encontra um botão
+            ou uma palavra, clica em cima e digita o que você mandar. Serve
+            para automatizar sistemas que não têm API, como ERPs antigos,
+            Oracle Forms, Delphi e Citrix.
+          </p>
+          <div class="cta">
+            <a class="btn" href="#inicio">Criar meu primeiro robô</a>
+            <a class="btn btn-ghost" href="#receitas">Ver exemplos prontos</a>
+          </div>
+          <div class="install">
+            <span>pip install pyvizion</span>
+            <button type="button" id="copy-install" aria-label="Copiar comando de instalação">copiar</button>
+          </div>
+        </div>
+        <figure class="hero-card">
+          <img src="assets/wordmark.png" alt="Marca pyvizion, verde amazônia sobre branco">
+          <figcaption>Josias Azevedo da Silva · Licença MIT (grátis, inclusive para uso comercial) · Python 3.9+</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="wrap">
+      <div class="stats">
+        <div class="stat"><b>3 linhas</b><span>para clicar num botão a partir de uma imagem</span></div>
+        <div class="stat"><b>~5 ms</b><span>para "ver" a tela inteira</span></div>
+        <div class="stat"><b>~6× mais rápido</b><span>quando você diz em que parte da tela procurar</span></div>
+        <div class="stat"><b>1.0.8</b><span>versão atual no PyPI</span></div>
+      </div>
+    </div>
+
+    <section id="como-funciona">
+      <div class="wrap">
+        <h2>Como funciona</h2>
+        <p class="sub">
+          Você escreve, em Python, o que faria com o mouse e o teclado:
+          "clique no botão Salvar", "digite 12345 no campo Código".
+          O pyvizion executa cada passo nesta ordem:
+        </p>
+        <div class="arch">
+          <article>
+            <h3>1. Olha a tela</h3>
+            <p>Tira uma foto da tela em milésimos de segundo. Funciona também com dois monitores.</p>
+          </article>
+          <article>
+            <h3>2. Procura uma imagem</h3>
+            <p>Você recorta o botão (ex.: <code>salvar.png</code>) e o pyvizion encontra esse recorte na tela, mesmo com o zoom do Windows em 125% ou 150%.</p>
+          </article>
+          <article>
+            <h3>3. Ou procura um texto</h3>
+            <p>Também pode achar uma palavra escrita na tela, como "Confirmar". Quem faz a leitura é o Tesseract, um programa gratuito.</p>
+          </article>
+          <article>
+            <h3>4. Clica e digita</h3>
+            <p>Clica bem no meio do que encontrou e, se você pedir, já digita o texto e aperta teclas como Tab e Enter.</p>
+          </article>
+          <article>
+            <h3>5. Tenta de novo</h3>
+            <p>Se um passo não der certo (a tela demorou, um menu fechou), ele repete o passo anterior e tenta outra vez.</p>
+          </article>
+        </div>
+        <p class="note" style="margin-top:28px">
+          <strong>O robô não trava se não achar algo.</strong> Quando o botão ou texto
+          não aparece, o comando só responde <code>False</code> (não achei). Assim você
+          decide o que fazer: <code>if not vz.click_text("OK"): ...</code>.
+          O programa só para com erro se o Tesseract não estiver instalado ou se
+          o arquivo de imagem não existir.
+        </p>
+      </div>
+    </section>
+
+    <section id="inicio" style="background:var(--mist);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+      <div class="wrap">
+        <h2>Passo a passo: seu primeiro robô</h2>
+        <p class="sub">
+          Leva cerca de 10 minutos. Você precisa do Python 3.9 ou mais novo
+          instalado no Windows. Todos os comandos abaixo são digitados no
+          terminal (Prompt de Comando ou PowerShell).
+        </p>
+
+        <ol class="steps">
+          <li>
+            <div>
+              <h3>Instale a biblioteca</h3>
+              <p>Este comando baixa o pyvizion e tudo de que ele precisa.</p>
+            </div>
+<pre><code>pip install pyvizion</code></pre>
+          </li>
+          <li>
+            <div>
+              <h3>Instale o Tesseract</h3>
+              <p>
+                É o programa que lê textos na tela. Sem ele o pyvizion não inicia.
+                Baixe pelo <a href="https://github.com/UB-Mannheim/tesseract/wiki">instalador para Windows (UB-Mannheim)</a>
+                e mantenha a pasta sugerida (<code>C:\Program Files\Tesseract-OCR</code>).
+                Se as telas do seu sistema forem em português, marque o idioma
+                <strong>Portuguese</strong> durante a instalação.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div>
+              <h3>Confira se está tudo certo</h3>
+              <p>O comando <code>doctor</code> verifica a instalação e avisa o que estiver faltando.</p>
+            </div>
+<pre><code>python -m pyvizion doctor</code></pre>
+          </li>
+          <li>
+            <div>
+              <h3>Recorte o botão que você quer clicar</h3>
+              <p>
+                Tire um print, abra no Paint (ou na Ferramenta de Captura) e recorte
+                só o botão. Salve numa pasta <code>imagens</code> ao lado do seu script.
+                Dica: recorte pequeno e único, só o ícone, não a janela inteira.
+              </p>
+            </div>
+<pre><code>python -m pyvizion screenshot tela.png</code></pre>
+          </li>
+          <li class="wide">
+            <div>
+              <h3>Escreva o robô</h3>
+              <p>Crie um arquivo <code>robo.py</code>. Cada linha é uma ação, na ordem em que você faria à mão.</p>
+            </div>
+<pre><code>from pyvizion import Vizion
+
+# "por" = ler textos em português
+vz = Vizion({"image_folders": ["imagens"], "tesseract_lang": "por"})
+
+vz.click_image("menu.png")          # clica no botão recortado
+vz.click_text("Relatórios")         # clica onde estiver escrito "Relatórios"
+vz.click_text("Código", sendtext="12345{enter}")  # clica e digita</code></pre>
+          </li>
+          <li>
+            <div>
+              <h3>Rode e acompanhe</h3>
+              <p>
+                Deixe o sistema aberto na tela e execute. Para parar o robô a
+                qualquer momento, jogue o mouse para o <strong>canto superior esquerdo</strong> da tela.
+              </p>
+            </div>
+<pre><code>python robo.py</code></pre>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="receitas">
+      <div class="wrap">
+        <h2>Exemplos prontos</h2>
+        <p class="sub">Situações comuns do dia a dia. Copie, troque os nomes dos arquivos e textos, e use.</p>
+
+        <div class="two">
+          <div>
+            <h3>Esperar a tela carregar</h3>
+            <p class="sub">Em vez de "esperar 10 segundos" no chute, espere o botão aparecer ou a ampulheta sumir.</p>
+<pre><code># espera até 15 s o botão aparecer e clica
+vz.click_image("salvar.png", wait_until_found=True, wait_timeout=15)
+
+# espera até 60 s a ampulheta sumir
+vz.wait_until_gone("ampulheta.png", timeout=60)</code></pre>
+          </div>
+          <div>
+            <h3>Preencher um formulário</h3>
+            <p class="sub">O que está entre chaves é tecla: <code>{tab}</code> vai para o próximo campo, <code>{enter}</code> confirma.</p>
+<pre><code>vz.click_text("Usuário", sendtext="admin{tab}senha123{enter}")
+
+# apagar o que já estava no campo antes de digitar
+vz.click_text("Código", sendtext="{ctrl}a{del}12345")</code></pre>
+          </div>
+          <div>
+            <h3>Tentar de novo se falhar</h3>
+            <p class="sub">Com <code>backtrack=True</code>, se "Relatórios" não aparecer, o robô clica no menu de novo e tenta mais uma vez.</p>
+<pre><code>vz.click_image("menu.png", backtrack=True)
+vz.click_text("Relatórios", backtrack=True)</code></pre>
+          </div>
+          <div>
+            <h3>Trabalhar só dentro de uma janela</h3>
+            <p class="sub">Dizer onde procurar deixa o robô mais rápido e evita clicar em outro programa por engano.</p>
+<pre><code>vz.focus_window("Oracle Applications")     # traz a janela para frente
+area = vz.window_region("Oracle Applications")
+
+vz.click_text("Salvar", region=area)</code></pre>
+          </div>
+        </div>
+
+        <h3 style="margin-top:40px">Teclas que você pode usar ao digitar</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Quero…</th>
+              <th>Escreva no <code>sendtext</code></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Digitar num campo vazio</td><td><code>"12345"</code></td></tr>
+            <tr><td>Trocar o que já está escrito</td><td><code>"{ctrl}a{del}12345"</code></td></tr>
+            <tr><td>Ir para o próximo campo</td><td><code>"12345{tab}"</code></td></tr>
+            <tr><td>Confirmar</td><td><code>"12345{enter}"</code></td></tr>
+            <tr><td>Preencher dois campos</td><td><code>"01/01/2026{tab}31/01/2026"</code></td></tr>
+            <tr><td>Pular 3 campos</td><td><code>"{tab*3}"</code></td></tr>
+            <tr><td>Esperar 1 segundo</td><td><code>"12345{tab}{wait 1}"</code></td></tr>
+            <tr><td>Outras teclas</td><td><code>{esc}</code> <code>{backspace}</code> <code>{f1}</code>…<code>{f12}</code> <code>{ctrl+shift+s}</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="comparacao" style="background:var(--mist);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+      <div class="wrap">
+        <h2>Já usa PyAutoGUI ou bot-vision-suite?</h2>
+        <p class="sub">
+          Os comandos têm os mesmos nomes do bot-vision-suite 1.3.0
+          (<code>click_image</code>, <code>click_text</code>, <code>backtrack</code>…).
+          Na maioria dos casos basta trocar o <code>import</code>. O que muda é o
+          que acontece por trás: o robô encontra as coisas mais rápido e erra menos.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Antes (PyAutoGUI / bot-vision-suite)</th>
+              <th>pyvizion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ver a tela</td>
+              <td>Lento: cada foto da tela demora bastante</td>
+              <td>Cerca de 5 ms por foto</td>
+            </tr>
+            <tr>
+              <td>Achar um botão</td>
+              <td>Falha se o zoom do Windows não for 100%</td>
+              <td>Acha com zoom em 125% ou 150%</td>
+            </tr>
+            <tr>
+              <td>Achar um texto</td>
+              <td>Lê a tela inteira toda vez</td>
+              <td>Lê só a área que você indicar (cerca de 6× mais rápido)</td>
+            </tr>
+            <tr>
+              <td>Esperar algo aparecer</td>
+              <td>Espera lenta, cada tentativa custa caro</td>
+              <td>Espera rápida, dá para usar sempre</td>
+            </tr>
+            <tr>
+              <td>Dois monitores</td>
+              <td>Clica no lugar errado; o monitor da esquerda falha</td>
+              <td>Clica no lugar certo nos dois</td>
+            </tr>
+            <tr>
+              <td>Novidades</td>
+              <td>—</td>
+              <td>Controle de janelas, <code>click_any</code> (várias opções de botão), <code>doctor</code> e clique sem mover o cursor</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="sub" style="margin-top:20px">
+          Os números "5 ms" e "6×" são estimativas do método usado, não resultado de um teste oficial publicado.
+        </p>
+      </div>
+    </section>
+
+    <section id="duvidas">
+      <div class="wrap">
+        <h2>Dúvidas comuns</h2>
+        <p class="sub">Os problemas que mais aparecem no começo, e como resolver.</p>
+        <div class="faq">
+          <details>
+            <summary>Aparece o erro <code>TesseractNotFoundError</code></summary>
+            <p>O Tesseract não está instalado ou não foi encontrado. Instale pelo <a href="https://github.com/UB-Mannheim/tesseract/wiki">instalador UB-Mannheim</a> e rode <code>python -m pyvizion doctor</code> para confirmar.</p>
+          </details>
+          <details>
+            <summary>O robô não encontra meu botão</summary>
+            <p>Recorte a imagem de novo, menor e só com o botão, direto da tela onde ele vai rodar. Evite recortar partes que mudam (textos variáveis, fundo). Se o botão tiver versões diferentes, use <code>vz.click_any(["novo_v1.png", "novo_v2.png", "Novo"])</code>.</p>
+          </details>
+          <details>
+            <summary>Ele não lê textos em português</summary>
+            <p>O idioma padrão é inglês. Crie o robô com <code>Vizion({"tesseract_lang": "por"})</code> e confira se o idioma Portuguese foi marcado na instalação do Tesseract.</p>
+          </details>
+          <details>
+            <summary>Como descubro as coordenadas de uma área da tela?</summary>
+            <p>Rode <code>python -m pyvizion pick</code> e marque os dois cantos da área. Ele mostra os números para usar em <code>region=(x, y, largura, altura)</code>. Para ver a posição do mouse em tempo real: <code>python -m pyvizion position</code>.</p>
+          </details>
+          <details>
+            <summary>No Citrix / Área de Trabalho Remota o texto não é digitado</summary>
+            <p>Por padrão o pyvizion cola o texto, e algumas conexões remotas bloqueiam isso. Use <code>Vizion({"typing_mode": "type"})</code> para digitar letra por letra.</p>
+          </details>
+          <details>
+            <summary>Posso usar o computador enquanto o robô roda?</summary>
+            <p>Com <code>Vizion({"use_virtual_mouse": True})</code> o robô clica sem mover o seu cursor (só no Windows). Mesmo assim, a janela do sistema precisa estar visível na tela.</p>
+          </details>
+          <details>
+            <summary>Funciona no Linux ou no Mac?</summary>
+            <p>Com limitações: não há clique sem mover o cursor nem controle de janelas. O uso recomendado é no Windows.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap foot">
+      <div>© 2026 Josias Azevedo da Silva · Licença MIT</div>
+      <div>
+        <a href="https://pypi.org/project/pyvizion/">PyPI</a>
+        ·
+        comandos compatíveis com o <a href="https://github.com/matheuszwilk/bot-vision-suite">bot-vision-suite</a> (MIT)
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("copy-install").addEventListener("click", async (e) => {
+      try {
+        await navigator.clipboard.writeText("pip install pyvizion");
+        e.target.textContent = "copiado";
+        setTimeout(() => { e.target.textContent = "copiar"; }, 1600);
+      } catch (_) {
+        e.target.textContent = "pip install pyvizion";
+      }
+    });
+  </script>
+</body>
+</html>
