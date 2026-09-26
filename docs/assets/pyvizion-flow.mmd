@@ -1,0 +1,26 @@
+flowchart LR
+    A["Script Python<br/>regras de negócio"] --> B["API pyvizion<br/>click_image / click_text / find_* / wait_*"]
+
+    B --> C["Captura de tela<br/>mss"]
+    C --> D["Detecção de imagem<br/>OpenCV template matching"]
+    C --> E["Detecção de texto<br/>Tesseract OCR"]
+
+    D --> F["Decisão de alvo<br/>imagem ou texto encontrado"]
+    E --> F
+
+    F --> G["Ação<br/>mouse e teclado"]
+    G --> H["Retorno para seu código<br/>True / False / None / box"]
+
+    H --> I{"Falhou?"}
+    I -- "sim" --> J["Fallback de negócio<br/>wait / backtrack / retry"]
+    I -- "não" --> K["Próximo passo do fluxo"]
+    J --> B
+
+    L["Requisitos de ambiente<br/>Windows + Python 3.9+ + Tesseract"] -. habilita .-> B
+
+    classDef core fill:#e8f5ef,stroke:#146b43,stroke-width:1.5px,color:#0b3d2c;
+    classDef action fill:#ecf4ff,stroke:#295a9f,stroke-width:1.2px,color:#163c73;
+    classDef warn fill:#fff5e8,stroke:#c77800,stroke-width:1.2px,color:#6c3f00;
+    class A,B,C,D,E,F,H core;
+    class G,J,K action;
+    class I,L warn;
