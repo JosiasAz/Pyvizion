@@ -1,16 +1,67 @@
 """
 CLI do Vizion.
-
-    python -m pyvizion doctor              # diagnóstico do ambiente
-    python -m pyvizion --version
-    python -m pyvizion screenshot [arq]    # salva um print (para recortar imagens)
-    python -m pyvizion position            # posição do mouse em tempo real (x, y)
-    python -m pyvizion pick [--save recorte.png]  # marca região (2 cantos) + OCR + trechos
-    python -m pyvizion windows             # títulos das janelas abertas
-    python -m pyvizion ocr x y w h         # lê o texto de uma região
 """
 
+from __future__ import annotations
+
 import sys
+
+
+def _print_help() -> None:
+    from . import __version__
+
+    print(
+        f"""pyvizion {__version__} — automação de interface por imagem e texto
+
+Uso:
+  pyvizion <comando> [opções]
+
+Comandos (interface flutuante):
+  pick [--save arq.png] [--no-ocr] [--terminal]
+      Marca uma região (overlay). Captura na hora por padrão.
+      Atraso opcional: 5/10/15s ou personalizado.
+
+  position [--terminal]
+      Coordenadas do mouse ao vivo (janela estilo MouseInfo).
+
+  ocr [x y largura altura]
+      Sem argumentos: marca a região no overlay e mostra o texto.
+      Com x y w h: lê essa região e abre o resultado na janela.
+
+  print [arquivo.png]
+      Janela: tela completa ou selecionar área (clique/arraste).
+      (alias: screenshot)
+
+  windows
+      Lista títulos das janelas abertas (com copiar).
+
+Comandos (terminal):
+  doctor     Diagnóstico do ambiente
+  version    Versão instalada
+  help       Este tutorial
+
+Exemplos:
+  pyvizion pick
+  pyvizion position
+  pyvizion ocr
+  pyvizion ocr 120 400 200 30
+  pyvizion print tela.png
+  pyvizion windows
+
+No script Python:
+  from pyvizion import Vizion
+  bot = Vizion()
+  bot.click_image("imagem1.png", region=(x, y, w, h))
+  bot.click_text("OK", region=(x, y, w, h))
+"""
+    )
+
+
+def _run_doctor() -> int:
+    from .diagnostics import format_report, run_doctor
+
+    print(format_report(run_doctor()))
+    return 0
 
 
 def main(argv=None):
@@ -20,7 +71,18 @@ def main(argv=None):
         except Exception:
             pass
     argv = list(sys.argv[1:] if argv is None else argv)
-    command = argv[0] if argv else "doctor"
+
+    if not argv:
+        _print_help()
+        print("--- ambiente ---")
+        print()
+        return _run_doctor()
+
+    command = argv[0]
+
+    if command in ("--help", "-h", "help"):
+        _print_help()
+        return 0
 
     if command in ("--version", "-V", "version"):
         from . import __version__
@@ -29,21 +91,18 @@ def main(argv=None):
         return 0
 
     if command == "doctor":
-        from .diagnostics import format_report, run_doctor
+        return _run_doctor()
 
-        print(format_report(run_doctor()))
-        return 0
+    if command in ("print", "screenshot"):
+        from .tools.panels import run_screenshot_gui
 
-    if command == "screenshot":
-        from .core.screen import save_screenshot
-
-        print(save_screenshot(argv[1] if len(argv) > 1 else None))
-        return 0
+        return run_screenshot_gui(argv[1] if len(argv) > 1 else None)
 
     if command == "position":
         from .tools.pick_region import run_position_live
 
-        run_position_live()
+        terminal = len(argv) > 1 and argv[1] in ("--terminal", "-t")
+        run_position_live(terminal=terminal)
         return 0
 
     if command == "pick":
@@ -52,23 +111,25 @@ def main(argv=None):
         return main_pick(argv[1:])
 
     if command == "windows":
-        from .core.windows import list_windows
+        from .tools.panels import run_windows_gui
 
-        for _, title in list_windows():
-            print(title)
-        return 0
+        return run_windows_gui()
 
     if command == "ocr":
+        from .tools.panels import run_ocr_gui
+
+        if len(argv) == 1:
+            return run_ocr_gui()
         if len(argv) != 5:
-            print("uso: python -m pyvizion ocr x y largura altura")
+            print("uso: pyvizion ocr")
+            print("     pyvizion ocr x y largura altura")
             return 2
-        from .vizion import Vizion
-
         region = tuple(int(v) for v in argv[1:5])
-        print(Vizion().read_text(region))
-        return 0
+        return run_ocr_gui(region)
 
-    print(__doc__)
+    print(f"comando desconhecido: {command!r}")
+    print()
+    _print_help()
     return 2
 
 

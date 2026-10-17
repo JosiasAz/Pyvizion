@@ -77,7 +77,8 @@ def locate(executable=None):
                 logger.debug(f"Tesseract: {path}")
                 return path
     raise TesseractNotFoundError(
-        "Tesseract OCR não encontrado. Instale antes de criar Vizion():\n"
+        "Tesseract OCR não encontrado (necessário para click_text / find_text / read_text).\n"
+        "click_image e find_image funcionam sem Tesseract.\n"
         "  Windows: https://github.com/UB-Mannheim/tesseract/wiki (inglês já vem no instalador)\n"
         "  Linux:   sudo apt-get install tesseract-ocr\n"
         "  macOS:   brew install tesseract\n"

@@ -6,7 +6,7 @@ Todos herdam de ``VizionError``.
 Os métodos clássicos (``click_*``, ``find_*``) devolvem ``False``/``None`` quando
 o alvo não está na tela — isso deixa o backtrack e as tarefas ``optional``
 funcionarem. As classes ``ImageNotFoundError`` e ``TextNotFoundError`` existem
-para quem quiser capturar ou relançar; o ambiente (Tesseract ausente, arquivo
+para quem quiser capturar ou relançar; o ambiente (Tesseract ausente no OCR, arquivo
 inexistente, área inválida) **sempre** levanta exceção.
 """
 

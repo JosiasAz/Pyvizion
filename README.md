@@ -1,22 +1,10 @@
-<p align="center">
-  <img src="https://files.catbox.moe/skh0jr.png" alt="pyvizion" width="420">
-</p>
+![pyvizion](https://files.catbox.moe/skh0jr.png)
 
-<p align="center">
-  <strong>Biblioteca Python para automação de interface por imagem e texto</strong>
-</p>
+**Biblioteca Python para automação de interface por imagem e texto**
 
-<p align="center">
-  <a href="https://pypi.org/project/pyvizion/"><img src="https://img.shields.io/badge/PyPI-v1.0.8-146B43" alt="PyPI v1.0.8"></a>
-  <a href="https://pypi.org/project/pyvizion/"><img src="https://img.shields.io/badge/python-3.9%2B-0B3D2C" alt="Python"></a>
-  <img src="https://img.shields.io/badge/licença-MIT-1F7A4D" alt="MIT">
-</p>
+![PyPI v1.0.8](https://img.shields.io/badge/PyPI-v1.0.9-146B43)![Python](https://img.shields.io/badge/python-3.9%2B-0B3D2C)![MIT](https://img.shields.io/badge/licença-MIT-1F7A4D)
 
-<p align="center">
-  <a href="https://pypi.org/project/pyvizion/">PyPI</a> |
-  <a href="#começar">Começar</a> |
-  <a href="#como-funciona">Como funciona</a>
-</p>
+[PyPI](https://pypi.org/project/pyvizion/) | [Começar](#começar) | [Como funciona](#como-funciona)
 
 ---
 
@@ -24,20 +12,20 @@ O **pyvizion** é uma biblioteca Python: localiza um botão ou um texto na tela,
 
 Serve para aplicativos desktop sem API: ERP, Oracle Forms, Delphi, Citrix. Só Windows. Linux e macOS têm limitação: sem clique virtual, sem foco de janela e sem o mesmo suporte de tela.
 
-Os nomes e a ordem dos parâmetros seguem o [bot-vision-suite](https://pypi.org/project/bot-vision-suite/) 1.3.0. Quem já usa esses métodos troca o import; a busca na tela é implementação deste pacote.
-
 ```python
 from pyvizion import Vizion
 
-vz = Vizion()
-vz.click_image("menu.png", backtrack=True)
-vz.click_text("Relatórios", backtrack=True)
-vz.click_text("Confirmar", sendtext="{enter}")
+bot = Vizion()
+bot.click_image("menu.png", backtrack=True)
+bot.click_text("Relatórios", backtrack=True)
+bot.click_text("Confirmar", sendtext="{enter}")
 ```
 
-A versão publicada é a **1.0.8**. As versões 0.3.x no PyPI são outra API.
+A versão publicada é a **1.0.9**. As versões 0.3.x no PyPI são outra API.'
 
 ---
+
+
 
 ## Começar
 
@@ -46,58 +34,66 @@ pip install pyvizion
 python -m pyvizion doctor
 ```
 
-**Tesseract** é obrigatório ao criar `Vizion()`. Sem ele a instância nem sobe (`TesseractNotFoundError`).
+**Tesseract** é necessário só para texto/OCR (`click_text`, `find_text`, `read_text`, …).  
+`click_image`, `find_image`, teclado e janelas funcionam **sem** Tesseract — o `Vizion()` sobe normalmente.
 
-| Sistema | Instalação |
-| -------- | ---------- |
-| Windows (suportado) | [UB-Mannheim](https://github.com/UB-Mannheim/tesseract/wiki) em `C:\Program Files\Tesseract-OCR\` |
-| Linux / macOS (limitado) | `tesseract-ocr` / `brew install tesseract`. Sem clique virtual e sem foco de janela. |
 
-Idioma padrão do OCR: **`eng`**. Tela em português: `Vizion({"tesseract_lang": "por"})` e o pacote `por`.
+| Sistema                  | Instalação do Tesseract (se for usar OCR)                                                         |
+| ------------------------ | ------------------------------------------------------------------------------------------------- |
+| Windows (suportado)      | [UB-Mannheim](https://github.com/UB-Mannheim/tesseract/wiki) em `C:\Program Files\Tesseract-OCR\` |
+| Linux / macOS (limitado) | `tesseract-ocr` / `brew install tesseract`. Sem clique virtual e sem foco de janela.              |
+
+
+Idioma padrão do OCR: `eng`. Tela em português: `Vizion({"tesseract_lang": "por"})` e o pacote `por`.
 
 ---
+
+
 
 ## Como funciona
 
 Você chama `click_image("ok.png")` ou `click_text("Salvar")`. A biblioteca tira um print, procura o alvo e clica no meio dele.
 
-1. **Tira o print:** cerca de 5 ms, funciona com dois monitores.
-2. **Acha a imagem:** você recorta o botão, salva numa pasta (`imagens/ok.png`) e passa o caminho. A biblioteca procura essa figura na tela. Funciona mesmo se o Windows estiver com a tela aumentada (125% ou 150%).
-3. **Acha o texto:** Tesseract (inglês por padrão; `tesseract_lang="por"` se a tela for em português).
+1. **Tira o print:** `mss` em memória (multi-monitor).
+2. **Acha a imagem:** recorte **só o botão/ícone** (PNG pequeno e único), passe o caminho. Multi-escala tolera zoom 125%/150%.
+3. **Acha o texto:** Tesseract. **Sempre passe** `region` — OCR em **tela cheia** é lento e frágil.
 4. **Clica e digita:** no centro do alvo. `use_virtual_mouse` no Windows não mexe o cursor.
 5. **Se falhar:** com `backtrack=True`, refaz o passo anterior. Também espera aparecer ou sumir.
 
-Se o alvo não estiver na tela, devolve `False` ou `None`. Vale `if not vz.click_text("OK")`. Erro só se faltar Tesseract ou o PNG não existir.
+Se o alvo não estiver na tela, devolve `False` ou `None`. Vale `if not bot.click_text("OK")`.  
+Erro de ambiente: `TesseractNotFoundError` **só** ao usar OCR; `ImageFileError` se o PNG não existir.
 
-### O que melhorou
+### Diferenciais
 
-Os métodos são os mesmos do bot-vision-suite 1.3.0. O que mudou é o jeito de achar o alvo: mais rápido e mais estável com a tela aumentada e com mais de um monitor.
+|                     | pyvizion |
+| ------------------- | -------- |
+| Print da tela       | `mss` em memória, multi-monitor |
+| Busca de imagem     | Multi-escala (tolera zoom 125% / 150%) |
+| Busca de texto      | OCR com `region` (bem mais rápido que tela cheia) |
+| Esperas             | `wait_until_found` / `wait_until_disappears` |
+| Zoom / 2 monitores  | Clique alinhado aos pixels reais |
+| Alvo sumiu          | `False` / `None` — sem exception |
+| Extras              | janelas, `click_any`, `doctor`, mouse virtual, CLI |
 
-| | Antes (PyAutoGUI / BVS) | pyvizion |
-| --- | --- | --- |
-| Tirar o print | Lento (dezenas a centenas de ms) | Cerca de **5 ms** |
-| Achar imagem | Falha fácil se a tela estiver aumentada | Acha mesmo com a tela em 125% ou 150% |
-| Achar texto | Tela inteira é cara | Com `region`, cerca de **6x** mais rápido |
-| Esperar o alvo | Cada tentativa paga o print lento | `wait_until_found` dá para usar de verdade |
-| Zoom / 2 monitores | Clique no lugar errado | Clica no lugar certo nos dois monitores |
-| Alvo sumiu | `False` / `None` | Igual: `if not vz.click_text("OK")` |
-| Extra | (não tinha) | janelas, `click_any`, `doctor`, mouse virtual |
-
-Os "5 ms" e o "6x" vêm do jeito de tirar o print e de ler só a área pedida, não de um teste oficial publicado.
+Quem quiser medir tempos no próprio PC (opcional): `python scripts/bench_pipeline.py`.
 
 ---
 
+
+
 ## Uso
+
+
 
 ### Backtrack e esperas
 
 ```python
-vz = Vizion()
-vz.click_image("menu.png", backtrack=True)
-vz.click_text("Relatórios", backtrack=True)
-vz.click_image("salvar.png", wait_until_found=True, wait_timeout=15)
-vz.find_image("ampulheta.png", wait_until_disappears=True, wait_timeout=60)
-vz.click_image("ok.png", wait_until_disappears=True, wait_timeout=10)
+bot = Vizion()
+bot.click_image("menu.png", backtrack=True)
+bot.click_text("Relatórios", backtrack=True)
+bot.click_image("salvar.png", wait_until_found=True, wait_timeout=15)
+bot.find_image("ampulheta.png", wait_until_disappears=True, wait_timeout=60)
+bot.click_image("ok.png", wait_until_disappears=True, wait_timeout=10)
 ```
 
 `wait_until_disappears` no `find_*` devolve a caixa se o alvo sumiu, `None` se ainda estiver visível. No `click_*`, o clique **já valeu**: devolve `True` mesmo se o alvo continuar na tela.
@@ -105,11 +101,13 @@ vz.click_image("ok.png", wait_until_disappears=True, wait_timeout=10)
 ### Sessão
 
 ```python
-vz.start_task_session()
-vz.click_image("button1.png", backtrack=True)
-vz.click_text("Clientes", backtrack=True)
-ok, total = vz.end_task_session()
+bot.start_task_session()
+bot.click_image("button1.png", backtrack=True)
+bot.click_text("Clientes", backtrack=True)
+ok, total = bot.end_task_session()
 ```
+
+
 
 ### Lista de tarefas
 
@@ -126,63 +124,72 @@ execute_tasks([
 
 ---
 
+
+
 ## Métodos
 
-Assinaturas posicionais iguais às do bot-vision-suite 1.3.0.
+Para automações novas, use o **núcleo** (`pyvizion.CORE_API`). O restante é avançado / legado.
 
-| Método | Resultado |
-| ------ | --------- |
-| `click_image(...)` | `bool` |
-| `find_image(...)` | `(x, y, w, h)` ou `None` |
-| `click_text(...)` | `bool` |
-| `find_text(...)` | caixa ou `None` |
-| `click_relative_image(...)` / `find_relative_image(...)` | alvo mais perto da âncora |
-| `click_at` / `click_coordinates` | clique em ponto |
-| `type_text` / `keyboard_command` | digitação e atalhos |
-| `extract_text_from_region` / `get_last_extracted_text` | OCR da área |
-| `execute_tasks` / `execute_with_backtrack_between_tasks` | listas |
-| `start_task_session` / `end_task_session` | sessão de backtrack |
-| `configure_overlay` / `get_overlay_config` / `test_overlay_colors` | overlay |
+### Núcleo (comece por aqui)
 
-Extras: `wait_for_image`, `wait_for_text`, `wait_until_gone`, `image_exists`, `text_exists`, `find_all_images`, `click_any`, `find_any`, `read_text`, `focus_window`, `wait_window`, `window_region`, `list_windows`, `press`, `hotkey`, `scroll`, `drag`, `screenshot`, `click_image_near_text`.
 
-Também como funções: `from pyvizion import click_image, find_text, execute_tasks, limpar_texto`.
+| Método                             | Resultado      | Precisa Tesseract?        |
+| ---------------------------------- | -------------- | ------------------------- |
+| `click_image` / `find_image`       | `bool` / caixa | Não                       |
+| `click_text` / `find_text`         | `bool` / caixa | Sim                       |
+| `type_text`                        | —              | Não                       |
+| `wait_for_image` / `wait_for_text` | caixa / texto  | texto: sim                |
+| `focus_window`                     | `bool`         | Não                       |
+| `execute_tasks`                    | resultados     | só se a tarefa usar texto |
+
+### Demais métodos
+
+`click_relative_image`, `find_relative_image`, `click_at`, `click_coordinates`, `keyboard_command`, `extract_text_from_region`, `get_last_extracted_text`, `execute_with_backtrack_between_tasks`, `start_task_session` / `end_task_session`, overlay, `wait_until_gone`, `image_exists`, `text_exists`, `find_all_images`, `click_any`, `find_any`, `read_text`, `wait_window`, `window_region`, `list_windows`, `press`, `hotkey`, `scroll`, `drag`, `screenshot`, `click_image_near_text`.
+
+Também como funções: `from pyvizion import click_image, find_text, execute_tasks`.  
+Aliases `*_standalone` existem, mas emitem `DeprecationWarning`.
 
 **Parâmetros que importam**
 
-- `region=(x, y, largura, altura)`: use sempre que puder. `vz.window_region("Título")` devolve a janela.
+- `region=(x, y, largura, altura)`: **obrigatório na prática** para OCR e recomendado para imagem. `bot.window_region("Título")` ajuda.
 - `specific=False`: tenta a região e depois a tela, em várias escalas.
 - `mouse_button`: `"left"`, `"right"`, `"double"`, `"move_to"`.
 - `filter_type`: `"letters"`, `"numbers"`, `"both"`. `occurrence=2` é a segunda na ordem de leitura.
 - `wait_timeout`: segundos da espera (padrão da config: **30**).
 
-`click_*` / `find_*` **não levantam** se o alvo sumiu. Ambiente quebrado sim: `TesseractNotFoundError` no `Vizion()`, `ImageFileError` se o PNG não existe. As classes `ImageNotFoundError` e `TextNotFoundError` existem para quem quiser capturar por nome.
+`click_*` / `find_*` **não levantam** se o alvo sumiu. Ambiente quebrado: `TesseractNotFoundError` ao usar OCR sem Tesseract; `ImageFileError` se o PNG não existe.
 
 ---
+
+
 
 ## Campos (`sendtext`)
 
 Texto digitado logo após o clique. `{chave}` é tecla.
 
 ```python
-vz.click_text("Usuário", sendtext="admin{tab}senha123{enter}")
+bot.click_text("Usuário", sendtext="admin{tab}senha123{enter}")
 ```
 
-| Quero | `sendtext` |
-| ----- | ---------- |
-| campo vazio | `"12345"` |
-| substituir o que está lá | `"{ctrl}a{del}12345"` |
-| ir ao próximo | `"12345{tab}"` |
-| confirmar | `"12345{enter}"` |
-| dois campos | `"01/01/2026{tab}31/01/2026"` |
-| pular | `"{tab*3}"` |
-| pausa | `"12345{tab}{wait 1}"` |
+
+| Quero                    | `sendtext`                    |
+| ------------------------ | ----------------------------- |
+| campo vazio              | `"12345"`                     |
+| substituir o que está lá | `"{ctrl}a{del}12345"`         |
+| ir ao próximo            | `"12345{tab}"`                |
+| confirmar                | `"12345{enter}"`              |
+| dois campos              | `"01/01/2026{tab}31/01/2026"` |
+| pular                    | `"{tab*3}"`                   |
+| pausa                    | `"12345{tab}{wait 1}"`        |
+
 
 Macros: `{enter}` `{tab}` `{esc}` `{del}` `{backspace}` setas `{f1}` a `{f12}` `{ctrl}a` `{ctrl+shift+s}` `{tab*3}` `{wait 1.5}` `{{` `}}`.
 
 Citrix/RDP que não cola: `Vizion({"typing_mode": "type"})`.
 
 ---
+
+
 
 ## Tipos de tarefa
 
@@ -202,65 +209,86 @@ Chaves comuns: `mouse_button`, `delay`, `sendtext`, `backtrack`, `max_attempts`,
 
 ---
 
+
+
 ## Configuração
 
 ```python
-vz = Vizion({
+bot = Vizion({
     "tesseract_lang": "eng",
     "image_folders": ["./imagens"],
     "use_virtual_mouse": False,
     "show_overlay": False,
 })
-vz.config.set("show_overlay", True)
-vz = Vizion("pyvizion.json")
+bot.config.set("show_overlay", True)
+bot = Vizion("pyvizion.json")
 ```
 
-| Chave | Padrão | Uso |
-| ----- | ------ | --- |
-| `confidence_threshold` | `75.0` | limiar OCR (0–100) |
-| `default_confidence` | `0.9` | imagem |
-| `tesseract_lang` | `eng` | `"por"`, `"por+eng"` |
-| `tesseract_path` / `tessdata_path` | auto | executável e tessdata |
-| `timeout` (`wait_timeout`) | `30` | espera padrão |
-| `use_virtual_mouse` | `False` | clique sem mover o cursor (Windows) |
-| `typing_mode` | `"paste"` | `"type"` no Citrix |
-| `image_folders` | `[]` | onde achar PNG relativo |
-| `show_overlay` | `False` | retângulo de depuração |
-| `save_failure_screenshots` | `False` | print a cada miss |
-| `stop_on_failure` | `False` | para a lista no primeiro erro |
-| `failsafe` | `True` | canto superior esquerdo aborta |
+
+| Chave                              | Padrão    | Uso                                 |
+| ---------------------------------- | --------- | ----------------------------------- |
+| `confidence_threshold`             | `75.0`    | limiar OCR (0–100)                  |
+| `default_confidence`               | `0.9`     | imagem                              |
+| `tesseract_lang`                   | `eng`     | `"por"`, `"por+eng"`                |
+| `tesseract_path` / `tessdata_path` | auto      | executável e tessdata               |
+| `timeout` (`wait_timeout`)         | `30`      | espera padrão                       |
+| `use_virtual_mouse`                | `False`   | clique sem mover o cursor (Windows) |
+| `typing_mode`                      | `"paste"` | `"type"` no Citrix                  |
+| `image_folders`                    | `[]`      | onde achar PNG relativo             |
+| `show_overlay`                     | `False`   | retângulo de depuração              |
+| `save_failure_screenshots`         | `False`   | print a cada miss                   |
+| `stop_on_failure`                  | `False`   | para a lista no primeiro erro       |
+| `failsafe`                         | `True`    | canto superior esquerdo aborta      |
+
 
 Demais chaves (escalas, OCR, overlay, backtrack): veja `src/pyvizion/config.py`.
 
 ---
 
-## Linha de comando
+
+
+## Linha de comando (ferramenta oficial)
+
+O auxiliar oficial do pacote é o **CLI** (não há app `.exe` separado):
 
 ```bash
-python -m pyvizion doctor
-python -m pyvizion screenshot tela.png
-python -m pyvizion position
-python -m pyvizion pick
-python -m pyvizion ocr 100 200 300 40
+pyvizion                  # help dos comandos + doctor
+pyvizion pick             # marca região + gera PNG (imagem1.png, …) e snippet
+pyvizion pick --terminal  # fluxo antigo (2× Enter)
+pyvizion position         # XY + RGB ao vivo
+pyvizion ocr              # OCR de uma área
+pyvizion print            # screenshot (tela ou área)
+pyvizion windows
+pyvizion doctor
 ```
 
+Use `pick` para obter `region` e PNGs bons antes de escrever o script.
+
 ---
+
+
 
 ## Prática
 
-1. Passe `region` (ou `window_region`) sempre que souber a área.
-2. Recorte PNG pequeno e único: o ícone, não o formulário.
-3. Prefira `wait_until_gone` a `delay` fixo.
-4. Comece com `focus_window("Título")`.
-5. Para parar: mouse no canto superior esquerdo.
+1. **Region quase sempre:** OCR sem `region` é lento e erra mais; imagem também ganha.
+2. **PNG pequeno e único:** recorte o ícone/botão, não o formulário inteiro (`pyvizion pick`).
+3. Prefira `wait_until_gone` / `wait_until_found` a `delay` fixo.
+4. Comece com `focus_window("Título")` (ou `window_region`).
+5. Para parar: mouse no canto superior esquerdo (`failsafe`).
+
+OCR depende de fonte, tema e escala — trate `region` + PNG de qualidade como regra, não como otimização.
 
 ---
+
+
 
 ## Desenvolvimento
 
 ```bash
 pip install -e .[dev]
 pytest
+# opcional — só para medir desempenho na sua máquina:
+python scripts/bench_pipeline.py
 ```
 
 O site estático fica em `docs/`. Para ver localmente:
@@ -270,6 +298,8 @@ python -m http.server 8080 --directory docs
 ```
 
 ---
+
+
 
 ## Licença
 

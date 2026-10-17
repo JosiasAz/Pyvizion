@@ -364,18 +364,44 @@ def _grab_pil(box):
     return img.convert("RGB")
 
 
+_SCREENSHOT_EXTS = {".png", ".jpg", ".jpeg", ".bmp", ".webp", ".tif", ".tiff"}
+
+
+def _normalize_screenshot_path(path) -> str:
+    """Valida/normaliza o caminho do print; levanta ActionError se a extensão for inválida."""
+    if path is None or str(path).strip() == "":
+        import time
+
+        return f"pyvizion_screenshot_{time.strftime('%Y%m%d_%H%M%S')}.png"
+
+    p = Path(str(path).strip())
+    ext = p.suffix.lower()
+    if not ext:
+        p = p.with_suffix(".png")
+        return str(p)
+
+    if ext not in _SCREENSHOT_EXTS:
+        sugestao = p.with_suffix(".png").name
+        formatos = ", ".join(sorted(_SCREENSHOT_EXTS))
+        raise ActionError(
+            f"Extensão {ext!r} não suportada para print.\n"
+            f"  Use uma destas: {formatos}\n"
+            f"  Exemplo: pyvizion print {sugestao}"
+        )
+    return str(p)
+
+
 def save_screenshot(path=None, region=None):
     """Salva um screenshot e retorna o caminho."""
     img, _ = grab_screen(region)
-    if path is None:
-        import time
-
-        path = f"pyvizion_screenshot_{time.strftime('%Y%m%d_%H%M%S')}.png"
-    path = str(path)
+    path = _normalize_screenshot_path(path)
     folder = os.path.dirname(path)
     if folder:
         os.makedirs(folder, exist_ok=True)
-    img.save(path)
+    try:
+        img.save(path)
+    except Exception as exc:
+        raise ActionError(f"Não foi possível salvar o screenshot em {path!r}: {exc}") from exc
     return path
 
 

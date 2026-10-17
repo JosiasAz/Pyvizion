@@ -15,9 +15,8 @@ class Context:
     def __init__(self, settings):
         enable_dpi_awareness()
         self.settings = settings
-        from .core import tesseract
-
-        tesseract.locate(settings.tesseract)
+        # Tesseract só é exigido na 1ª operação de OCR (click_text, read_text, …).
+        # click_image / find_image / type_text / janelas funcionam sem ele.
         self.resolver = Resolver(settings)
         self.reader = self.resolver.reader
         self.mouse = Mouse(settings)

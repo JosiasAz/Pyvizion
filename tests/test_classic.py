@@ -189,7 +189,8 @@ def test_excecoes_especificas():
     assert isinstance(err, TargetNotFound)
 
 
-def test_tesseract_obrigatorio_no_init(monkeypatch):
+def test_tesseract_nao_bloqueia_init(monkeypatch):
+    """Vizion sobe sem Tesseract; OCR falha só ao usar texto."""
     from pyvizion.core import tesseract
     from pyvizion.exceptions import TesseractNotFoundError
 
@@ -197,8 +198,12 @@ def test_tesseract_obrigatorio_no_init(monkeypatch):
         raise TesseractNotFoundError("sumiu")
 
     monkeypatch.setattr(tesseract, "locate", boom)
+    monkeypatch.setattr(tesseract, "prepare", boom)
+    bot = Vizion({"retry_delay": 0})
+    assert bot is not None
+    bot._ctx.reader._info = None
     with pytest.raises(TesseractNotFoundError, match="sumiu"):
-        Vizion({"retry_delay": 0})
+        bot.click_text("OK", max_attempts=1)
 
 
 def test_virtual_mouse_nao_move_cursor(vz, fake_gui, monkeypatch):
@@ -218,7 +223,11 @@ def test_exports():
         assert not hasattr(pyvizion, gone)
     assert pyvizion.limpar_texto("  123abc!  ", "numbers") == "123"
     assert pyvizion.clean_text("  123abc!  ", "letters") == "abc"
-    assert pyvizion.type_text_standalone is pyvizion.type_text
+    # aliases legados emitem DeprecationWarning ao chamar
+    assert pyvizion.type_text_standalone is not pyvizion.type_text
+    with pytest.warns(DeprecationWarning, match="legado"):
+        pyvizion.type_text_standalone("")
+    assert "click_image" in pyvizion.CORE_API
 
 
 def _positional(cls, name):

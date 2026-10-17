@@ -61,7 +61,7 @@ def format_report(report):
             lines.append("    dica: para textos em português, instale 'por' e use tesseract_lang='por'.")
     else:
         lines.append(f"  {bad} Tesseract    {report.get('tesseract_error', 'não encontrado')}")
-        lines.append("    (necessário só para alvos de texto e read())")
+        lines.append("    opcional: click_image funciona sem ele; obrigatório para click_text/OCR")
     if "primary_screen" in report:
         lines.append(f"  {ok} Tela principal {report['primary_screen'][0]}x{report['primary_screen'][1]}, "
                      f"área virtual {report['virtual_screen']}")

@@ -18,7 +18,7 @@ from .core.classic_keys import KeyboardCommander, has_macros
 from .core.mouse import is_emergency_stop
 from .core.screen import Region, as_region, grab_screen
 from .core.specs import Image, Near, Text
-from .exceptions import ImageFileError, VizionError
+from .exceptions import ImageFileError, TesseractNotFoundError, VizionError
 
 logger = logging.getLogger("pyvizion")
 
@@ -84,7 +84,7 @@ class ClassicMixin:
         for attempt in range(attempts):
             try:
                 found = self._ctx.resolver.find_once(spec, min(attempt, 2))
-            except ImageFileError:
+            except (ImageFileError, TesseractNotFoundError):
                 raise
             except VizionError as e:
                 logger.warning(str(e).splitlines()[0])
@@ -136,7 +136,7 @@ class ClassicMixin:
         while True:
             try:
                 present = self._ctx.resolver.find_once(spec) is not None
-            except ImageFileError:
+            except (ImageFileError, TesseractNotFoundError):
                 raise
             except VizionError:
                 present = False

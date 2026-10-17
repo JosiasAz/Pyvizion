@@ -28,6 +28,14 @@ class Vizion(ClassicMixin):
     """
     Automação de interface por visão (imagem + OCR).
 
+    Tesseract só é necessário para métodos de texto (``click_text``, ``find_text``,
+    ``read_text``, …). ``click_image`` / ``find_image`` / teclado / janelas sobem
+    sem OCR instalado.
+
+    Núcleo do dia a dia: ``click_image``, ``click_text``, ``type_text``,
+    ``wait_for_image``, ``focus_window``, ``execute_tasks``. O restante é
+    avançado ou legado.
+
     Args:
         config: ``dict`` com as chaves de configuração, caminho de um .json/.yaml
             ou um ``Config``. Ex.: ``{"confidence_threshold": 80, "tesseract_lang": "por"}``

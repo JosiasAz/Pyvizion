@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "pyvizion"
-version = "1.0.8"
+version = "1.0.9"
 description = "Biblioteca Python para automação de interface por imagem e texto."
 readme = "README.md"
 license = { file = "LICENSE" }
