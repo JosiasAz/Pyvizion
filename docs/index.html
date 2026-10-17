@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
@@ -28,7 +28,7 @@
         <a href="#duvidas">Dúvidas</a>
       </nav>
       <div class="menu-actions">
-        <a class="btn-topbar-pypi" href="https://pypi.org/project/pyvizion/" target="_blank" rel="noopener">PyPI v1.0.8</a>
+        <a class="btn-topbar-pypi" href="https://pypi.org/project/pyvizion/" target="_blank" rel="noopener">PyPI v1.0.9</a>
         <a class="btn-topbar-gh" href="https://github.com/JosiasAz/Pyvizion" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
@@ -43,7 +43,7 @@
             <span class="badge">Biblioteca Python</span>
             <span class="badge">Windows</span>
             <span class="badge">ERP &amp; Legado</span>
-            <span class="badge badge-accent">v1.0.8 no PyPI</span>
+            <span class="badge badge-accent">v1.0.9 no PyPI</span>
           </div>
           <h1>Faça o computador<br>clicar e digitar por você.</h1>
           <p class="lead">
@@ -78,17 +78,17 @@
           <pre><code><span class="tok-kw">from</span> pyvizion <span class="tok-kw">import</span> Vizion
 
 <span class="tok-cmt"># Conecta ao sistema no Windows</span>
-vz = Vizion({<span class="tok-str">"tesseract_lang"</span>: <span class="tok-str">"por"</span>})
-vz.focus_window(<span class="tok-str">"ERP Legado"</span>)
+bot = Vizion({<span class="tok-str">"tesseract_lang"</span>: <span class="tok-str">"por"</span>})
+bot.focus_window(<span class="tok-str">"ERP Legado"</span>)
 
 <span class="tok-cmt"># Clica no botão por recorte de imagem</span>
-vz.click_image(<span class="tok-str">"menu.png"</span>)
+bot.click_image(<span class="tok-str">"menu.png"</span>)
 
 <span class="tok-cmt"># Lê texto na tela via OCR e digita</span>
-vz.click_text(<span class="tok-str">"Código"</span>, sendtext=<span class="tok-str">"12345{enter}"</span>)
+bot.click_text(<span class="tok-str">"Código"</span>, sendtext=<span class="tok-str">"12345{enter}"</span>)
 
 <span class="tok-cmt"># Espera o botão carregar e confirma</span>
-vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span class="tok-kw">True</span>)</code></pre>
+bot.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span class="tok-kw">True</span>)</code></pre>
           <div class="code-footer">
             <span>✔ Simples, determinístico e pronto para produção</span>
           </div>
@@ -104,16 +104,16 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
           <span>para clicar num botão a partir de uma imagem</span>
         </div>
         <div class="stat">
-          <b>~5 ms</b>
-          <span>para capturar a tela inteira com mss</span>
+          <b>mss</b>
+          <span>captura de tela em memória, multi-monitor</span>
         </div>
         <div class="stat">
-          <b>~6× mais rápido</b>
-          <span>quando você indica a região da janela</span>
+          <b>region</b>
+          <span>OCR bem mais rápido quando você limita a área</span>
         </div>
         <div class="stat">
-          <b>1.0.8</b>
-          <span>versão estável disponível no PyPI</span>
+          <b>1.0.9</b>
+          <span>versão estável no PyPI</span>
         </div>
       </div>
     </div>
@@ -180,7 +180,7 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
           </article>
         </div>
         <div class="info-banner" style="margin-top:28px">
-          <strong>Comportamento seguro:</strong> quando um botão ou texto não aparece na tela, o robô apenas responde <code>False</code> sem travar nem derrubar seu script. Assim você decide o que fazer no código com um simples <code>if not vz.click_text("OK"): tratar_erro()</code>.
+          <strong>Comportamento seguro:</strong> quando um botão ou texto não aparece na tela, o robô apenas responde <code>False</code> sem travar nem derrubar seu script. Assim você decide o que fazer no código com um simples <code>if not bot.click_text("OK"): tratar_erro()</code>.
         </div>
       </div>
     </section>
@@ -282,11 +282,11 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
                 <span class="term-indicator" id="termIndicator">● Sincronizado</span>
               </div>
               <div class="demo-terminal-logs" id="demoTerminalLogs">
-                <div class="log-line log-cmd" id="log0"><span class="log-ts">[00:00.03]</span> <code>vz.focus_window("ERP Corporativo")</code></div>
+                <div class="log-line log-cmd" id="log0"><span class="log-ts">[00:00.03]</span> <code>bot.focus_window("ERP Corporativo")</code></div>
                 <div class="log-line log-info" id="log1"><span class="log-ts">[00:00.07]</span> ↳ Janela em foco (hwnd: 0x004A12F0)</div>
-                <div class="log-line log-cmd" id="log2"><span class="log-ts">[00:00.12]</span> <code>vz.click_text("Confirmar", wait_until_found=True)</code></div>
+                <div class="log-line log-cmd" id="log2"><span class="log-ts">[00:00.12]</span> <code>bot.click_text("Confirmar", wait_until_found=True)</code></div>
                 <div class="log-line log-ocr" id="log3"><span class="log-ts">[00:00.19]</span> ↳ [OCR] Texto 'Confirmar' detectado (confiança 99.4%)</div>
-                <div class="log-line log-action" id="log4"><span class="log-ts">[00:00.24]</span> ↳ [PyAutoGUI] Clique disparado em (x=542, y=388)</div>
+                <div class="log-line log-action" id="log4"><span class="log-ts">[00:00.24]</span> ↳ Clique disparado em (x=542, y=388)</div>
                 <div class="log-line log-success" id="log5"><span class="log-ts">[00:00.28]</span> ↳ Retorno: <strong class="tok-kw">True</strong> (operação realizada com sucesso)</div>
               </div>
             </div>
@@ -314,7 +314,7 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
           <div class="flow-expl-card flow-step-1">
             <div class="expl-dot dot-1"></div>
             <h4>1. Captura de Tela (mss)</h4>
-            <p>O <code>mss</code> tira prints diretos da memória de vídeo em ~5 ms, sem travar o processador e com suporte total a múltiplos monitores.</p>
+            <p>O <code>mss</code> captura a tela em memória, com suporte a múltiplos monitores e escala DPI do Windows.</p>
           </div>
           <div class="flow-expl-card flow-step-2">
             <div class="expl-dot dot-2"></div>
@@ -352,16 +352,16 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
               <li><strong>OpenCV</strong>: localização de recortes PNG com tolerância a DPI scaling.</li>
               <li><strong>Tesseract OCR</strong>: leitura e busca de palavras direto na imagem.</li>
               <li><strong>PyAutoGUI</strong>: envio de cliques e teclas com fail-safe nos cantos.</li>
-              <li><strong>pywinauto</strong>: controle e foco de janelas do Windows (Win32).</li>
+              <li><strong>Win32</strong>: foco de janelas e clique virtual no Windows.</li>
             </ul>
           </div>
           <div>
             <h3>Requisitos do sistema</h3>
             <ul class="plain-list">
               <li><strong>Sistema operacional:</strong> Windows 10 ou 11 (recomendado e completo).</li>
-              <li><strong>Tesseract OCR:</strong> instalado no caminho padrão (UB-Mannheim).</li>
+              <li><strong>Tesseract OCR:</strong> só se for usar texto (<code>click_text</code>). Imagem funciona sem ele.</li>
               <li><strong>Visibilidade:</strong> a tela ou janela do aplicativo deve estar visível.</li>
-              <li><strong>Recortes de imagem:</strong> prints nítidos em PNG dos botões alvo.</li>
+              <li><strong>Recortes de imagem:</strong> PNG pequeno e único do botão (<code>pyvizion pick</code>).</li>
               <li><strong>Linux / macOS:</strong> suporte básico (sem clique virtual e sem controle de janela).</li>
             </ul>
           </div>
@@ -381,18 +381,18 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
           <pre class="tree-pre"><code><span class="tree-root">pyvizion</span>
 <span class="tree-branch">├──</span> <span class="tree-head">1. Preparar ambiente</span>
 <span class="tree-branch">│   ├──</span> pip install pyvizion
-<span class="tree-branch">│   └──</span> instalar Tesseract OCR (UB-Mannheim)
+<span class="tree-branch">│   └──</span> Tesseract só se for usar OCR (click_text)
 <span class="tree-branch">├──</span> <span class="tree-head">2. Definir alvos na tela</span>
-<span class="tree-branch">│   ├──</span> Imagem: recorte PNG do botão (<span class="tok-str">salvar.png</span>)
-<span class="tree-branch">│   └──</span> Texto: palavra a ser lida via OCR (<span class="tok-str">"Confirmar"</span>)
+<span class="tree-branch">│   ├──</span> Imagem: PNG do botão via <span class="tok-str">pyvizion pick</span>
+<span class="tree-branch">│   └──</span> Texto: palavra + <span class="tok-str">region</span> (OCR)
 <span class="tree-branch">├──</span> <span class="tree-head">3. Executar ações</span>
 <span class="tree-branch">│   ├──</span> click_image / click_text
 <span class="tree-branch">│   ├──</span> sendtext com macros: <span class="tok-str">"admin{tab}senha{enter}"</span>
 <span class="tree-branch">│   └──</span> esperas: wait_until_found / wait_until_gone
 <span class="tree-branch">└──</span> <span class="tree-head">4. Tratar o retorno</span>
     <span class="tree-branch">├──</span> <span class="tok-kw">True</span>: ação executada com sucesso
-    <span class="tree-branch">├──</span> <span class="tok-str">False / None</span>: elemento não encontrado (tratar no código)
-    <span class="tree-branch">└──</span> Exception: arquivo inexistente ou Tesseract não instalado</code></pre>
+    <span class="tree-branch">├──</span> <span class="tok-str">False / None</span>: elemento não encontrado
+    <span class="tree-branch">└──</span> Exception: PNG inexistente ou Tesseract ausente no OCR</code></pre>
         </div>
       </div>
     </section>
@@ -416,32 +416,31 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
           </li>
           <li>
             <div class="step-text">
-              <h3>2. Instale o Tesseract OCR</h3>
+              <h3>2. (Opcional) Instale o Tesseract OCR</h3>
               <p>
-                É o motor que lê os textos na tela. Baixe pelo instalador oficial para Windows:
-                <a href="https://github.com/UB-Mannheim/tesseract/wiki" target="_blank" rel="noopener">UB-Mannheim Tesseract OCR</a>.
-                Mantenha a pasta padrão (<code>C:\Program Files\Tesseract-OCR</code>).
-                Se for automatizar telas em português, marque o pacote de idioma <strong>Portuguese</strong> durante a instalação.
+                Só precisa se for clicar/ler <strong>texto</strong> na tela (<code>click_text</code>, <code>find_text</code>).
+                <code>click_image</code> funciona sem Tesseract. Instalador Windows:
+                <a href="https://github.com/UB-Mannheim/tesseract/wiki" target="_blank" rel="noopener">UB-Mannheim</a>
+                (pasta padrão <code>C:\Program Files\Tesseract-OCR</code>). Para telas em português, marque o idioma <strong>Portuguese</strong>.
               </p>
             </div>
           </li>
           <li>
             <div class="step-text">
-              <h3>3. Verifique seu ambiente com o doctor</h3>
-              <p>O pyvizion vem com uma ferramenta de diagnóstico integrada que valida se o Tesseract e as bibliotecas estão prontos.</p>
+              <h3>3. Verifique o ambiente</h3>
+              <p>O <code>doctor</code> confere dependências, monitores e se o Tesseract está disponível (quando instalado).</p>
             </div>
-            <pre><code>python -m pyvizion doctor</code></pre>
+            <pre><code>pyvizion doctor</code></pre>
           </li>
           <li>
             <div class="step-text">
-              <h3>4. Recorte o botão desejado</h3>
+              <h3>4. Recorte o botão com o CLI</h3>
               <p>
-                Abra a tela do sistema, aperte <kbd>Win</kbd> + <kbd>Shift</kbd> + <kbd>S</kbd> e recorte apenas o botão (ex.: <code>menu.png</code>).
-                Salve o recorte numa pasta <code>imagens</code> ao lado do seu script.
-                Você também pode tirar print pelo próprio pyvizion:
+                Use o seletor oficial do pacote: marca a área, gera o PNG (<code>imagem1.png</code>…) e a <code>region</code>.
+                Prefira recortes pequenos e únicos (o ícone, não o formulário inteiro).
               </p>
             </div>
-            <pre><code>python -m pyvizion screenshot tela.png</code></pre>
+            <pre><code>pyvizion pick</code></pre>
           </li>
           <li class="wide">
             <div class="step-text">
@@ -451,16 +450,16 @@ vz.click_text(<span class="tok-str">"Confirmar"</span>, wait_until_found=<span c
             <pre><code>from pyvizion import Vizion
 
 # Inicia o robô apontando a pasta de imagens e o idioma do OCR
-vz = Vizion({"image_folders": ["imagens"], "tesseract_lang": "por"})
+bot = Vizion({"image_folders": ["imagens"], "tesseract_lang": "por"})
 
 # Clica no botão pela imagem recortada
-vz.click_image("menu.png")
+bot.click_image("menu.png")
 
 # Clica onde estiver escrito "Relatórios" na tela
-vz.click_text("Relatórios")
+bot.click_text("Relatórios")
 
 # Clica no campo "Código", digita 12345 e aperta Enter
-vz.click_text("Código", sendtext="12345{enter}")</code></pre>
+bot.click_text("Código", sendtext="12345{enter}")</code></pre>
           </li>
           <li>
             <div class="step-text">
@@ -479,7 +478,7 @@ vz.click_text("Código", sendtext="12345{enter}")</code></pre>
     <!-- Macros de Digitação -->
     <section id="macros" class="section">
       <div class="container">
-        <h2>Sobre macros de digitação (novidade da versão 1.0.8)</h2>
+        <h2>Macros de digitação (<code>sendtext</code>)</h2>
         <p class="subtitle">
           O parâmetro <code>sendtext</code> aceita atalhos como <code>{tab}</code>, <code>{enter}</code> e <code>{ctrl}a</code>.
           <strong>O uso de macros é 100% opcional.</strong> Se preferir, use apenas texto direto normal.
@@ -489,20 +488,20 @@ vz.click_text("Código", sendtext="12345{enter}")</code></pre>
           <div>
             <h3>Modo simples (sem macros)</h3>
             <pre><code># Digita texto simples diretamente no campo clicado
-vz.click_text("Código", sendtext="12345")
+bot.click_text("Código", sendtext="12345")
 
 # Ou separa em duas etapas explícitas
-vz.click_text("Código")
-vz.type_text("12345")</code></pre>
+bot.click_text("Código")
+bot.type_text("12345")</code></pre>
             <p class="help-text">Sem chaves, o texto é digitado de forma direta e literal, sem interpretação de macros.</p>
           </div>
           <div>
             <h3>Modo avançado (com macros)</h3>
             <pre><code># Preenche um campo, aperta Tab e digita no próximo
-vz.click_text("Usuário", sendtext="admin{tab}senha{enter}")
+bot.click_text("Usuário", sendtext="admin{tab}senha{enter}")
 
 # Seleciona todo o conteúdo anterior, apaga e digita
-vz.click_text("Código", sendtext="{ctrl}a{del}12345")</code></pre>
+bot.click_text("Código", sendtext="{ctrl}a{del}12345")</code></pre>
             <p class="help-text">Ideal para fluxos em ERPs onde a navegação entre campos é feita com Tab e confirmações com Enter.</p>
           </div>
         </div>
@@ -581,39 +580,39 @@ vz.click_text("Código", sendtext="{ctrl}a{del}12345")</code></pre>
             <h3>1. Esperar tela carregar ou ampulheta sumir</h3>
             <p>Em vez de colocar <code>time.sleep(10)</code> no chute, espere o elemento aparecer ou o indicador de carregamento sumir:</p>
             <pre><code># Espera até 15 segundos o botão aparecer e clica
-vz.click_image("salvar.png", wait_until_found=True, wait_timeout=15)
+bot.click_image("salvar.png", wait_until_found=True, wait_timeout=15)
 
 # Espera até 60 segundos a ampulheta ou loading sumir
-vz.wait_until_gone("ampulheta.png", timeout=60)</code></pre>
+bot.wait_until_gone("ampulheta.png", timeout=60)</code></pre>
           </article>
 
           <article class="recipe-card">
             <h3>2. Preencher formulário com Tab e Enter</h3>
             <p>Preencha formulários inteiros em sequência rápida simulando o comportamento de digitação humano:</p>
             <pre><code># Clica no campo de login e navega com Tab
-vz.click_text("Usuário", sendtext="admin{tab}senhaForte2026{enter}")
+bot.click_text("Usuário", sendtext="admin{tab}senhaForte2026{enter}")
 
 # Limpa campo pré-preenchido antes de digitar
-vz.click_text("Código", sendtext="{ctrl}a{del}99281")</code></pre>
+bot.click_text("Código", sendtext="{ctrl}a{del}99281")</code></pre>
           </article>
 
           <article class="recipe-card">
             <h3>3. Tentar de novo se falhar (Backtrack)</h3>
             <p>Se um menu dropdown fechar ou um clique falhar, o <code>backtrack</code> reexecuta o passo anterior e tenta de novo:</p>
             <pre><code># Se "Relatórios" não for encontrado, reabre "Menu" e tenta novamente
-vz.click_image("menu.png", backtrack=True)
-vz.click_text("Relatórios", backtrack=True)</code></pre>
+bot.click_image("menu.png", backtrack=True)
+bot.click_text("Relatórios", backtrack=True)</code></pre>
           </article>
 
           <article class="recipe-card">
-            <h3>4. Focar janela e buscar só numa área (6× mais rápido)</h3>
-            <p>Restringir a busca à área da janela do ERP acelera a captura e evita clicar em outro aplicativo aberto:</p>
+            <h3>4. Focar janela e buscar só numa área</h3>
+            <p>Restringir a busca à área da janela do ERP acelera o OCR e evita clicar em outro aplicativo aberto:</p>
             <pre><code># Traz a janela para frente e obtém suas coordenadas
-vz.focus_window("Oracle Applications")
-area = vz.window_region("Oracle Applications")
+bot.focus_window("Oracle Applications")
+area = bot.window_region("Oracle Applications")
 
 # Busca OCR apenas dentro da janela do Oracle
-vz.click_text("Salvar", region=area)</code></pre>
+bot.click_text("Salvar", region=area)</code></pre>
           </article>
         </div>
       </div>
@@ -622,55 +621,47 @@ vz.click_text("Salvar", region=area)</code></pre>
     <!-- Comparativo Honesto -->
     <section id="comparativo" class="section">
       <div class="container">
-        <h2>Comparativo honesto</h2>
+        <h2>O que o pyvizion oferece</h2>
         <p class="subtitle">
-          O pyvizion mantém os mesmos métodos clássicos que você já conhece no ecossistema Python, mas com arquitetura moderna, alta velocidade e robustez para ambientes Windows.
+          Feito para Windows corporativo: captura rápida, OCR com região, DPI e multi-monitor alinhados.
         </p>
 
         <div class="table-responsive">
           <table class="data-table compare-table">
             <thead>
               <tr>
-                <th>Recurso / Cenário</th>
-                <th>PyAutoGUI puro / bot-vision-suite 1.3</th>
-                <th>pyvizion 1.0.8 (Atual)</th>
+                <th>Recurso</th>
+                <th>pyvizion 1.0.9</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>Velocidade de captura de tela</strong></td>
-                <td>Lenta (30 a 100 ms por captura com PIL)</td>
-                <td><strong>~5 ms</strong> por captura com <code>mss</code></td>
+                <td><strong>Captura de tela</strong></td>
+                <td><code>mss</code> em memória, multi-monitor</td>
               </tr>
               <tr>
                 <td><strong>Zoom do Windows (DPI 125% / 150%)</strong></td>
-                <td>Falha frequentemente por distorção de escala</td>
-                <td><strong>Resiliente</strong>: lida com escalonamento DPI sem quebrar</td>
+                <td>Busca multi-escala — cliques alinhados aos pixels</td>
               </tr>
               <tr>
                 <td><strong>Busca por texto (OCR)</strong></td>
-                <td>Lê a tela inteira a cada iteração</td>
-                <td>Permite restringir a <strong><code>region</code></strong> (~6× mais rápido)</td>
+                <td>Use <code>region</code> — bem mais rápido e estável que tela cheia</td>
               </tr>
               <tr>
-                <td><strong>Múltiplos monitores</strong></td>
-                <td>Problemas com coordenadas negativas no monitor secundário</td>
-                <td><strong>Totalmente compatível</strong> com multi-monitores</td>
+                <td><strong>Tesseract</strong></td>
+                <td>Só para texto; <code>click_image</code> funciona sem OCR</td>
               </tr>
               <tr>
-                <td><strong>Controle de janelas</strong></td>
-                <td>Não possui controle nativo de janelas</td>
-                <td><strong><code>focus_window</code></strong> e <strong><code>window_region</code></strong> integrados</td>
+                <td><strong>Janelas</strong></td>
+                <td><code>focus_window</code>, <code>window_region</code>, <code>list_windows</code></td>
               </tr>
               <tr>
-                <td><strong>Clique virtual (sem mover mouse)</strong></td>
-                <td>Não suportado</td>
-                <td><strong><code>use_virtual_mouse</code></strong> nativo no Windows</td>
+                <td><strong>Clique virtual</strong></td>
+                <td><code>use_virtual_mouse</code> no Windows (não move o cursor)</td>
               </tr>
               <tr>
-                <td><strong>Diagnóstico de ambiente</strong></td>
-                <td>Nenhum diagnóstico</td>
-                <td><strong><code>python -m pyvizion doctor</code></strong> integrado</td>
+                <td><strong>CLI oficial</strong></td>
+                <td><code>pyvizion pick</code> · <code>print</code> · <code>position</code> · <code>ocr</code> · <code>doctor</code></td>
               </tr>
             </tbody>
           </table>
@@ -688,14 +679,14 @@ vz.click_text("Salvar", region=area)</code></pre>
           <details class="faq-item">
             <summary class="faq-question">Aparece o erro <code>TesseractNotFoundError</code>. Como resolver?</summary>
             <div class="faq-answer">
-              <p>O Tesseract OCR não está instalado ou não está no caminho padrão. Baixe pelo <a href="https://github.com/UB-Mannheim/tesseract/wiki" target="_blank" rel="noopener">instalador UB-Mannheim para Windows</a> e mantenha o caminho sugerido (<code>C:\Program Files\Tesseract-OCR</code>). Depois, rode <code>python -m pyvizion doctor</code> no terminal para confirmar.</p>
+              <p>Esse erro só aparece em operações de <strong>texto/OCR</strong> (<code>click_text</code>, <code>find_text</code>, …). <code>click_image</code> não precisa de Tesseract. Se for usar OCR, instale pelo <a href="https://github.com/UB-Mannheim/tesseract/wiki" target="_blank" rel="noopener">UB-Mannheim</a> e rode <code>pyvizion doctor</code>.</p>
             </div>
           </details>
 
           <details class="faq-item">
             <summary class="faq-question">O robô não está encontrando meu botão recortado. O que fazer?</summary>
             <div class="faq-answer">
-              <p>Tire o print direto da tela na mesma resolução em que o robô vai rodar. Recorte apenas o ícone ou texto do botão, sem incluir bordas variáveis ou fundos que mudam. Se o botão possuir versões diferentes (ativo/inativo/hover), use <code>vz.click_any(["btn_v1.png", "btn_v2.png", "Salvar"])</code>.</p>
+              <p>Tire o print direto da tela na mesma resolução em que o robô vai rodar. Recorte apenas o ícone ou texto do botão, sem incluir bordas variáveis ou fundos que mudam. Se o botão possuir versões diferentes (ativo/inativo/hover), use <code>bot.click_any(["btn_v1.png", "btn_v2.png", "Salvar"])</code>.</p>
             </div>
           </details>
 
@@ -709,7 +700,7 @@ vz.click_text("Salvar", region=area)</code></pre>
           <details class="faq-item">
             <summary class="faq-question">Como descubro as coordenadas de uma área específica da tela?</summary>
             <div class="faq-answer">
-              <p>O pyvizion possui utilitários CLI incluídos. Execute <code>python -m pyvizion pick</code> e clique nos dois cantos da área desejada para ver a tupla <code>region=(x, y, largura, altura)</code>. Para acompanhar a posição do mouse em tempo real, use <code>python -m pyvizion position</code>.</p>
+              <p>Use o CLI: <code>pyvizion pick</code> (marca área, gera PNG e region) ou <code>pyvizion position</code> (XY e RGB ao vivo). Também: <code>print</code>, <code>ocr</code>, <code>windows</code>.</p>
             </div>
           </details>
 

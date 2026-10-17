@@ -2,7 +2,7 @@
 
 **Biblioteca Python para automação de interface por imagem e texto**
 
-![PyPI v1.0.8](https://img.shields.io/badge/PyPI-v1.0.9-146B43)![Python](https://img.shields.io/badge/python-3.9%2B-0B3D2C)![MIT](https://img.shields.io/badge/licença-MIT-1F7A4D)
+![PyPI v1.0.9](https://img.shields.io/badge/PyPI-v1.0.9-146B43)![Python](https://img.shields.io/badge/python-3.9%2B-0B3D2C)![MIT](https://img.shields.io/badge/licença-MIT-1F7A4D)
 
 [PyPI](https://pypi.org/project/pyvizion/) | [Começar](#começar) | [Como funciona](#como-funciona)
 
@@ -21,7 +21,7 @@ bot.click_text("Relatórios", backtrack=True)
 bot.click_text("Confirmar", sendtext="{enter}")
 ```
 
-A versão publicada é a **1.0.9**. As versões 0.3.x no PyPI são outra API.'
+A versão publicada é a **1.0.9**. As versões 0.3.x no PyPI são outra API.
 
 ---
 
@@ -294,8 +294,10 @@ python scripts/bench_pipeline.py
 O site estático fica em `docs/`. Para ver localmente:
 
 ```bash
-python -m http.server 8080 --directory docs
+python -m http.server 8765 --directory docs
 ```
+
+Abra http://127.0.0.1:8765/ (a porta 8080 costuma conflitar com outros apps).
 
 ---
 
